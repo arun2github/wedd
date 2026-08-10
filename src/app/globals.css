@@ -1,0 +1,173 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Wedding palette — primitives */
+  --color-ivory: #fbf6ee;
+  --color-ivory-dark: #f3ebdd;
+  --color-wine: #5c0e1d;
+  --color-wine-dark: #3d0812;
+  --color-gold: #b08d57;
+  --color-gold-light: #d9c39a;
+  --color-charcoal: #2b2520;
+  --color-charcoal-muted: #6b6158;
+
+  /*
+    Ceremony accents — the actual colours of each ritual: turmeric for Haldi,
+    henna for Mehendi, wine for the Vivah, plum for the Reception.
+
+    Each is darkened past a 4.5:1 ratio against both ivory surfaces so it can
+    carry small text, not just decoration. Verify before changing these.
+  */
+  --color-haldi: #82600f;
+  --color-mehendi: #40562c;
+  --color-plum: #4a2545;
+
+  /*
+    The invitation film's own backdrop, sampled from the clip itself. The video
+    is 16:9 and shown `object-contain`, so on a portrait phone there is a band
+    above and below it — these are the colours that make that band read as more
+    of the same studio surface instead of a frame around a video.
+  */
+  --color-stage: #cbc4ba;
+  --color-stage-deep: #9d9385;
+
+  /* Semantic → shadcn tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Typography */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-cormorant);
+  --font-script: var(--font-great-vibes);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-display);
+
+  /* Motion */
+  --ease-lux: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms;
+  --dur-base: 400ms;
+  --dur-slow: 750ms;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #fbf6ee;
+  --foreground: #2b2520;
+  --card: #fbf6ee;
+  --card-foreground: #2b2520;
+  --popover: #fffdf9;
+  --popover-foreground: #2b2520;
+  --primary: #5c0e1d;
+  --primary-foreground: #fbf6ee;
+  --secondary: #b08d57;
+  --secondary-foreground: #fbf6ee;
+  --muted: #f3ebdd;
+  --muted-foreground: #6b6158;
+  --accent: #f3ebdd;
+  --accent-foreground: #5c0e1d;
+  --destructive: #b3261e;
+  --border: #e3d5bd;
+  --input: #e3d5bd;
+  --ring: #b08d57;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Lenis smooth scroll. Only applied while an instance is mounted. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Lenis disables iframe hit-testing mid-scroll so the wheel isn't captured.
+   The video dialog is modal — the page isn't scrolling behind it — so the
+   embed needs its pointer events back or it becomes unclickable. */
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+.lenis.lenis-scrolling [data-lenis-allow-pointer] iframe {
+  pointer-events: auto;
+}
+
+/*
+ * Reduced motion. Deliberately scoped to *movement* — keyframe animations and
+ * transform/scroll transitions — rather than blanket-killing every transition.
+ * Colour and opacity fades don't trigger vestibular symptoms and removing them
+ * makes the UI feel broken.
+ *
+ * Note this block has no effect on framer-motion or Lenis: both animate via
+ * JS/rAF, not CSS. Each is handled separately in JS (MotionConfig
+ * reducedMotion="user", skipping Lenis init, and swapping the scroll-scrubbed
+ * envelope for a still).
+ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: opacity, color, background-color, border-color, fill, stroke !important;
+    scroll-behavior: auto !important;
+  }
+}
