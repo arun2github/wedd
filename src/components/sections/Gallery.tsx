@@ -46,7 +46,7 @@ export function Gallery({ gallery }: GalleryProps) {
   const showNext = () => setActiveIndex((i) => (i === null ? null : (i + 1) % filtered.length));
 
   return (
-    <section ref={sectionRef} id="gallery" className="bg-ivory py-20 sm:py-24">
+    <section ref={sectionRef} id="gallery" className="bg-surface py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <m.div style={{ y: headingY }}>
           <SectionHeading eyebrow="Gallery" title="Moments We Cherish" />
@@ -62,14 +62,14 @@ export function Gallery({ gallery }: GalleryProps) {
               <TabsTrigger
                 key={f.value}
                 value={f.value}
-                className="h-9 rounded-full border border-gold/30 px-4 text-sm data-active:border-wine data-active:bg-transparent data-active:text-ivory"
+                className="h-9 rounded-full border border-gilt/30 px-4 text-sm data-active:border-brand data-active:bg-transparent data-active:text-surface"
               >
                 {/* The filled pill is a single element that slides between
                     triggers rather than six that cross-fade. */}
                 {filter === f.value && (
                   <m.span
                     layoutId="gallery-pill"
-                    className="absolute inset-0 rounded-full bg-wine"
+                    className="absolute inset-0 rounded-full bg-brand"
                     transition={{ type: "spring", stiffness: 350, damping: 32 }}
                   />
                 )}
@@ -111,7 +111,7 @@ export function Gallery({ gallery }: GalleryProps) {
                   whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   transition={hoverSpring}
-                  className="group relative block size-full overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+                  className="group relative block size-full overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt"
                 >
                   <Image
                     src={image.src}
@@ -121,9 +121,9 @@ export function Gallery({ gallery }: GalleryProps) {
                     className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                   />
                   {/* Scrim + gold inset ring, both hover- and focus-driven. */}
-                  <span className="absolute inset-0 bg-gradient-to-t from-wine-dark/70 via-wine-dark/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
-                  <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gold/0 ring-inset transition-shadow duration-300 group-hover:ring-gold/70 group-focus-visible:ring-gold/70" />
-                  <span className="absolute inset-x-0 bottom-0 translate-y-full p-3 text-left text-xs leading-snug text-ivory transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-visible:translate-y-0">
+                  <span className="absolute inset-0 bg-gradient-to-t from-brand-deep/70 via-brand-deep/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
+                  <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gilt/0 ring-inset transition-shadow duration-300 group-hover:ring-gilt/70 group-focus-visible:ring-gilt/70" />
+                  <span className="absolute inset-x-0 bottom-0 translate-y-full p-3 text-left text-xs leading-snug text-surface transition-transform duration-300 ease-out group-hover:translate-y-0 group-focus-visible:translate-y-0">
                     {image.alt}
                   </span>
                 </m.button>

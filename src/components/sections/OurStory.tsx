@@ -31,7 +31,7 @@ export function OurStory({ story }: OurStoryProps) {
   );
 
   return (
-    <section id="story" className="bg-ivory-dark py-20 sm:py-24">
+    <section id="story" className="bg-surface-sunk py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="Our Story"
@@ -48,10 +48,10 @@ export function OurStory({ story }: OurStoryProps) {
             for `scaleY`, which would silently drop the class. On a 1px-wide rule
             that centring offset is half a pixel, so both layers just omit it.
           */}
-          <div className="absolute inset-y-0 left-4 w-px bg-gold/15 sm:left-1/2" />
+          <div className="absolute inset-y-0 left-4 w-px bg-gilt/15 sm:left-1/2" />
           <m.div
             style={{ scaleY }}
-            className="absolute inset-y-0 left-4 w-px origin-top bg-gold/50 sm:left-1/2"
+            className="absolute inset-y-0 left-4 w-px origin-top bg-gilt/50 sm:left-1/2"
             aria-hidden="true"
           />
 
@@ -72,18 +72,18 @@ export function OurStory({ story }: OurStoryProps) {
                   >
                     {/* Marker */}
                     <span
-                      className="absolute top-1.5 left-4 size-3 -translate-x-1/2 rounded-full border-2 border-gold bg-ivory-dark sm:left-1/2"
+                      className="absolute top-1.5 left-4 size-3 -translate-x-1/2 rounded-full border-2 border-gilt bg-surface-sunk sm:left-1/2"
                       aria-hidden="true"
                     />
 
                     <div className={cn(isEven ? "sm:order-1 sm:pr-10" : "sm:order-2 sm:pl-10")}>
-                      <p className="text-xs font-medium uppercase tracking-[0.25em] text-gold">
+                      <p className="text-xs font-medium uppercase tracking-[0.25em] text-gilt-ink">
                         {milestone.date}
                       </p>
-                      <h3 className="mt-2 font-display text-2xl text-wine sm:text-3xl">
+                      <h3 className="mt-2 font-display text-2xl text-brand sm:text-3xl">
                         {milestone.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-charcoal-muted">
+                      <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                         {milestone.description}
                       </p>
                     </div>
@@ -102,7 +102,7 @@ export function OurStory({ story }: OurStoryProps) {
                           sizes="(min-width: 640px) 40vw, 90vw"
                           className="object-cover transition-transform duration-700 ease-out group-hover/shot:scale-105"
                         />
-                        <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-gold/0 ring-inset transition-shadow duration-500 group-hover/shot:ring-gold/60" />
+                        <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-gilt/0 ring-inset transition-shadow duration-500 group-hover/shot:ring-gilt/60" />
                       </div>
                     )}
                   </m.div>

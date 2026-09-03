@@ -1,35 +1,22 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Great_Vibes, Inter } from "next/font/google";
+import { fontVariables } from "@/lib/fonts";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { IntroProvider } from "@/components/providers/IntroProvider";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const greatVibes = Great_Vibes({
-  variable: "--font-great-vibes",
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  display: "swap",
-});
-
+/**
+ * Platform-level fallback only.
+ *
+ * This used to name one couple, which was right while the project *was* one
+ * couple's invitation and became a bug the moment a second tenant existed —
+ * every site would have shipped with someone else's name in the tab and in the
+ * pasted link preview. Tenant routes now override all of it from their own
+ * content through `generateMetadata`; what remains here is what a route with
+ * no tenant behind it shows, which today means the 404.
+ */
 export const metadata: Metadata = {
-  title: "Arun & Priya | Wedding Invitation",
-  description:
-    "Join us as we celebrate the union of Arun and Priya. View wedding events, our story, gallery, and RSVP.",
+  title: "Wedding Invitations",
+  description: "Beautiful wedding websites for the celebrations that deserve one.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -37,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     // No `scroll-smooth` — native smooth scrolling fights Lenis.
     <html
       lang="en"
-      className={`${cormorant.variable} ${greatVibes.variable} ${inter.variable} h-full antialiased`}
+      className={`${fontVariables} h-full antialiased`}
     >
       {/*
         `min-h-dvh`, not `min-h-full`: Lenis sets `html.lenis body { height: auto }`,
@@ -51,11 +38,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       */}
       <body
         suppressHydrationWarning
-        className="min-h-dvh flex flex-col bg-ivory text-charcoal font-sans"
+        className="min-h-dvh flex flex-col bg-surface text-ink font-sans"
       >
         <MotionProvider>
           <SmoothScrollProvider>
-            <IntroProvider>{children}</IntroProvider>
+            {children}
           </SmoothScrollProvider>
         </MotionProvider>
       </body>

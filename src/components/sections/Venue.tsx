@@ -18,7 +18,7 @@ export function Venue({ venue }: VenueProps) {
   const y = useParallax(sectionRef, 60);
 
   return (
-    <section ref={sectionRef} id="venue" className="bg-ivory-dark py-20 sm:py-24">
+    <section ref={sectionRef} id="venue" className="bg-surface-sunk py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <SectionHeading eyebrow="Venue" title="Where We'll Celebrate" />
 
@@ -27,7 +27,7 @@ export function Venue({ venue }: VenueProps) {
           whileInView="visible"
           viewport={revealViewport}
           variants={fadeUp}
-          className="mt-14 grid grid-cols-1 overflow-hidden rounded-2xl border border-gold/25 bg-ivory shadow-sm sm:grid-cols-2"
+          className="mt-14 grid grid-cols-1 overflow-hidden rounded-2xl border border-gilt/25 bg-surface shadow-sm sm:grid-cols-2"
         >
           <div className="relative aspect-[4/3] overflow-hidden sm:aspect-auto">
             {/* Over-sized so the translate never exposes a gap at the tile edge. */}
@@ -43,9 +43,9 @@ export function Venue({ venue }: VenueProps) {
           </div>
 
           <div className="flex flex-col justify-center gap-4 p-8 sm:p-10">
-            <h3 className="font-display text-2xl text-wine sm:text-3xl">{venue.name}</h3>
-            <p className="flex items-start gap-2 text-sm leading-relaxed text-charcoal-muted">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
+            <h3 className="font-display text-2xl text-brand sm:text-3xl">{venue.name}</h3>
+            <p className="flex items-start gap-2 text-sm leading-relaxed text-ink-soft">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-gilt-ink" aria-hidden="true" />
               {venue.address}
             </p>
             <m.a
@@ -55,7 +55,7 @@ export function Venue({ venue }: VenueProps) {
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={tapPress}
               transition={hoverSpring}
-              className="group mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-wine px-6 py-2.5 text-sm font-medium text-ivory transition-colors hover:bg-wine-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="group mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-brand px-6 py-2.5 text-sm font-medium text-surface transition-colors hover:bg-brand-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt"
             >
               <Navigation
                 className="size-4 transition-transform duration-300 group-hover:-rotate-12 group-focus-visible:-rotate-12"

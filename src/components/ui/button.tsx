@@ -15,7 +15,7 @@ const buttonVariants = cva(
           become an `m.button` without breaking Radix's Slot composition.
         */
         default:
-          "relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 before:pointer-events-none before:absolute before:inset-y-0 before:-left-full before:w-full before:bg-gradient-to-r before:from-transparent before:via-gold-light/35 before:to-transparent before:transition-transform before:duration-700 before:ease-out hover:before:translate-x-[200%] focus-visible:before:translate-x-[200%] motion-reduce:before:hidden",
+          "relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 before:pointer-events-none before:absolute before:inset-y-0 before:-left-full before:w-full before:bg-gradient-to-r before:from-transparent before:via-gilt-soft/35 before:to-transparent before:transition-transform before:duration-700 before:ease-out hover:before:translate-x-[200%] focus-visible:before:translate-x-[200%] motion-reduce:before:hidden",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:

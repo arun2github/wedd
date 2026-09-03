@@ -5,26 +5,44 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Wedding palette — primitives */
-  --color-ivory: #fbf6ee;
-  --color-ivory-dark: #f3ebdd;
-  --color-wine: #5c0e1d;
-  --color-wine-dark: #3d0812;
-  --color-gold: #b08d57;
-  --color-gold-light: #d9c39a;
-  --color-charcoal: #2b2520;
-  --color-charcoal-muted: #6b6158;
+  /*
+    Every palette token is an *indirection*, never a literal.
+
+    This matters more than it looks. `@theme inline` bakes a literal straight
+    into the utility — `bg-surface` compiled to `background-color:#fbf6ee`, with
+    no variable left to override — so a second template could not have
+    re-coloured a single one of the ~200 palette classes already written across
+    the sections. Pointing each token at a `var()` instead compiles them to
+    `background-color:var(--surface)`, and a template can then repaint the whole
+    site by redefining eight values on a wrapper element.
+
+    The names are roles, not colours. `--brand` is wine in Royal Ivory,
+    emerald in Jali and kumkum in Muggu; `--surface` is cream in one template
+    and near-black indigo in another. Naming them `wine` and `ivory` — as they
+    were — meant a dark template would have had `--ivory` holding indigo, and
+    every component would have read as a lie.
+  */
+  --color-surface: var(--surface);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-gilt: var(--gilt);
+  --color-gilt-soft: var(--gilt-soft);
+  --color-gilt-ink: var(--gilt-ink);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
 
   /*
     Ceremony accents — the actual colours of each ritual: turmeric for Haldi,
     henna for Mehendi, wine for the Vivah, plum for the Reception.
 
     Each is darkened past a 4.5:1 ratio against both ivory surfaces so it can
-    carry small text, not just decoration. Verify before changing these.
+    carry small text, not just decoration. A template that redefines these owes
+    the same check: these carry body copy, not just ornament.
   */
-  --color-haldi: #82600f;
-  --color-mehendi: #40562c;
-  --color-plum: #4a2545;
+  --color-rite-1: var(--rite-1);
+  --color-rite-2: var(--rite-2);
+  --color-rite-3: var(--rite-3);
 
   /*
     The invitation film's own backdrop, sampled from the clip itself. The video
@@ -32,8 +50,8 @@
     above and below it — these are the colours that make that band read as more
     of the same studio surface instead of a frame around a video.
   */
-  --color-stage: #cbc4ba;
-  --color-stage-deep: #9d9385;
+  --color-stage: var(--stage);
+  --color-stage-deep: var(--stage-deep);
 
   /* Semantic → shadcn tokens */
   --color-background: var(--background);
@@ -55,10 +73,92 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* Typography */
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-cormorant);
-  --font-script: var(--font-great-vibes);
+  /*
+    The storefront's palette — fixed, and deliberately not a wedding template's.
+
+    Deep peacock teal rather than the cream-and-gold the templates use: a shop
+    should not look like one of the things on its shelves, and the cards have
+    to glow against the ground they are shown on. Teal and marigold are drawn
+    from the same world regardless — Kanjeevaram borders, temple work, and the
+    one flower that appears at every Indian wedding of any faith.
+
+    These are constants, not roles, so they sit outside the template system and
+    cannot be repainted by a `TemplateTheme` scope nested inside the page.
+  */
+  /*
+    The platform's own surface — a gallery, not a brand.
+
+    There is no accent colour here on purpose. Twelve templates each arrive
+    with a saturated palette of their own, and a branded ground competes with
+    every one of them: the earlier teal storefront made Jali's emerald cards
+    dissolve into the page. A near-neutral wall lets the work supply all the
+    colour, which is also the honest hierarchy — the templates are the product.
+    Warm-shifted rather than pure black so cream templates read as lit objects
+    against it instead of as cut-outs.
+  */
+  /*
+    The room, not the brand.
+
+    A warm near-black rather than the wedding palette every competitor uses —
+    cream, blush, sage, gold. Those read traditional because they *are* the
+    tradition. A dark room is also the only ground on which twelve saturated
+    template palettes read as lit objects instead of as swatches, and the only
+    one on which anything can be called cinematic.
+  */
+  /*
+    The platform surface.
+
+    Warm linen rather than white, sage rather than gold. Sage is the one
+    choice here doing real work: it is not a wedding colour — the category is
+    cream, blush and gold — so it reads calm and contemporary instead of
+    traditional, and it never competes with the twelve template palettes it
+    has to sit behind.
+  */
+  --color-linen: #faf6f0;
+  /* The deep ground for alternating bands. Aubergine rather than black — it
+     is the colour of the cloth these cards are traditionally printed on, and
+     gold reads as real metal against it rather than as yellow. */
+  --color-aubergine: #2a1520;
+  --color-wine: #4a1f2e;
+  --color-gold: #c9a24b;
+  --color-card: #ffffff;
+  --color-sage: #476b64;
+  --color-forest: #3d5752;
+  --color-haze: #a5b8b4;
+  --color-ink: #1c1614;
+  --color-soft: #6b5d57;
+
+  --color-noir: #12100e;
+  --color-noir-lift: #1c1917;
+  --color-bone: #ede7dd;
+  --color-dust: #9a9088;
+  --color-line: #2a2521;
+
+  --color-void: #0b0c0e;
+  --color-stone: #16171a;
+  --color-chalk: #f2f0eb;
+  --color-ash: #9d9ea1;
+  --color-hairline: #26282c;
+
+  --color-ground: #10333a;
+  --color-ground-lift: #17434b;
+  /* Cards lifted off the warm page ground — pure white, so a card reads as
+     paper laid on paper rather than as a tinted panel. */
+  --color-paper-lift: #ffffff;
+  /* Secondary text on `paper`. 5.8:1, so it carries body copy and captions
+     rather than only decorative labels. */
+  --color-slate: #4e6164;
+  --color-paper: #f6f2e9;
+  --color-marigold: #e8a13a;
+  --color-kumkum: #a63146;
+  --color-mist: #9db6b9;
+
+  /* Typography. Indirected exactly like the palette: `font-display` must
+     resolve to `var(--display-face)`, not to a baked-in Cormorant, or a
+     template could not change its own voice. */
+  --font-sans: var(--body-face);
+  --font-display: var(--display-face);
+  --font-script: var(--font-italianno);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-display);
 
@@ -79,25 +179,60 @@
 }
 
 :root {
-  --background: #fbf6ee;
-  --foreground: #2b2520;
-  --card: #fbf6ee;
-  --card-foreground: #2b2520;
-  --popover: #fffdf9;
-  --popover-foreground: #2b2520;
-  --primary: #5c0e1d;
-  --primary-foreground: #fbf6ee;
-  --secondary: #b08d57;
-  --secondary-foreground: #fbf6ee;
-  --muted: #f3ebdd;
-  --muted-foreground: #6b6158;
-  --accent: #f3ebdd;
-  --accent-foreground: #5c0e1d;
+  /*
+    The one place a template's colour identity lives.
+
+    Everything above is a pointer at these; the shadcn tokens below are too. So
+    a template scope that redefines this block repaints the wedding palette and
+    the form controls together, and they cannot drift apart.
+  */
+  --surface: #fbf6ee;
+  --surface-sunk: #f3ebdd;
+  --brand: #5c0e1d;
+  --brand-deep: #3d0812;
+  --gilt: #b08d57;
+  --gilt-soft: #d9c39a;
+  --gilt-ink: #886d43;
+  --ink: #2b2520;
+  --ink-soft: #6b6158;
+  --rite-1: #82600f;
+  --rite-2: #40562c;
+  --rite-3: #4a2545;
+  --stage: #cbc4ba;
+  --stage-deep: #9d9385;
+  /* Not derivable from the eight above: a gold-tinted hairline and a surface
+     lifted slightly *above* the page rather than sunk below it. */
+  --rule: #e3d5bd;
+  --raised: #fffdf9;
+
+  /*
+    shadcn's semantic layer, expressed in the palette rather than duplicating
+    it. These were the same hex values written twice, which is one edit away
+    from a form control that no longer matches the page it sits on.
+  */
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--surface);
+  --secondary: var(--gilt);
+  --secondary-foreground: var(--surface);
+  --muted: var(--surface-sunk);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--surface-sunk);
+  --accent-foreground: var(--brand);
   --destructive: #b3261e;
-  --border: #e3d5bd;
-  --input: #e3d5bd;
-  --ring: #b08d57;
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--gilt);
   --radius: 0.5rem;
+
+  /* Default template's voice; every template overrides these on its wrapper. */
+  --display-face: var(--font-cormorant);
+  --body-face: var(--font-inter);
 }
 
 @layer base {
@@ -118,7 +253,117 @@
   }
 }
 
+/*
+ * The storefront's invitation set dealing out of a closed stack.
+ *
+ * The fan itself is a plain transform on each card, always applied — this
+ * keyframe only animates *from* an inverted offset that cancels it, so the
+ * cards begin stacked and unwind into the fan. Written this way round on
+ * purpose: if the animation never runs, the set is simply already fanned. An
+ * entrance that is the only thing making the hero visible is an entrance that
+ * can take the hero away.
+ *
+ * `backwards` holds the start state through the stagger delay. The
+ * reduced-motion block near the bottom of this file collapses the duration, so
+ * the set snaps straight to fanned for anyone who asked for that.
+ */
+@keyframes deal-in {
+  from {
+    transform: translate(var(--deal-x, 0), 30px) rotate(var(--deal-r, 0deg));
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/*
+ * The hero field's ambient drift.
+ *
+ * Tiny amplitude and long, mismatched durations per panel: the point is that
+ * the space feels alive, not that anything is moving. Anything larger reads as
+ * a screensaver, and a marketplace whose hero distracts from the work on the
+ * wall has the hierarchy backwards.
+ */
+@keyframes universe-drift {
+  from { translate: 0 0; }
+  to   { translate: 0 -14px; }
+}
+
+/*
+ * The hero's opening.
+ *
+ * A hairline of light that widens into the full frame — a projector aperture,
+ * or a card being drawn out of its envelope. One move, played once, and then
+ * the page is still: a hero that keeps performing stops being cinematic and
+ * starts being a screensaver.
+ *
+ * `backwards` holds the closed state through the delay. The reduced-motion
+ * block below collapses every duration, so the frame is simply already open
+ * for anyone who asked not to be moved.
+ */
+@keyframes aperture-open {
+  from { clip-path: inset(50% 0 50% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* The slow push on the photograph. Barely perceptible per second, obvious over
+   a minute — which is the difference between a film frame and a slideshow. */
+@keyframes slow-push {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+/* Title beats. Each line arrives on its own delay so the type reads as a
+   sequence rather than as a block that faded in. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/*
+ * The hero carousel's rotation.
+ *
+ * A full turn takes 64 seconds. That is slow enough that the movement reads as
+ * a room the designs are standing in rather than as a carousel advancing, and
+ * slow enough that a visitor reading the headline is never chased by motion in
+ * their peripheral vision.
+ *
+ * A CSS animation rather than a JS loop on purpose: it is composited off the
+ * main thread, it keeps running while React is busy, and it needs no bundle to
+ * have loaded before the page looks alive.
+ */
+@keyframes cylinder-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(-360deg); }
+}
+
 @layer utilities {
+  /*
+    The arch.
+
+    A rounded dome on top, square at the base. It is the platform's one
+    repeated shape, and it is not decoration borrowed from a reference: a
+    mandap is an arch, a church door is an arch, the mihrab in the Jali
+    template is an arch, and Jharokha is named after an arched window. It is
+    the shape these ceremonies already happen under.
+  */
+  /*
+    Used once, on one large image.
+
+    It was on nine surfaces — every card, every thumbnail, every poster — which
+    turned a mandap silhouette into a row of tombstones and made the shape
+    meaningless through repetition. At card size the dome eats the top third of
+    the picture; at full size it reads as the doorway it is.
+  */
+  .arch {
+    border-radius: 999px 999px 12px 12px;
+  }
+  .arch-soft {
+    border-radius: 220px 220px 12px 12px;
+  }
+
   .text-balance {
     text-wrap: balance;
   }

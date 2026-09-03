@@ -11,7 +11,7 @@ export function CornerFlourish({ className, rotate = 0 }: CornerFlourishProps) {
   return (
     <svg
       viewBox="0 0 100 100"
-      className={cn("h-16 w-16 text-gold/60", className)}
+      className={cn("h-16 w-16 text-gilt/60", className)}
       style={{ transform: `rotate(${rotate}deg)` }}
       fill="none"
       aria-hidden="true"

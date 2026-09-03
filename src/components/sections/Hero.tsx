@@ -53,10 +53,10 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
   const restingScale = prefersReducedMotion ? 1 : BACKGROUND_SETTLE.from;
 
   return (
-    // `bg-wine-dark` is also the colour the envelope stage washes to, so the
+    // `bg-brand-deep` is also the colour the envelope stage washes to, so the
     // card and the frame it emerges into are never two different blacks.
     <section
-      className="relative flex size-full min-h-dvh flex-col items-center justify-center overflow-hidden bg-wine-dark"
+      className="relative flex size-full min-h-dvh flex-col items-center justify-center overflow-hidden bg-brand-deep"
     >
       {/*
         Background photo. Visible from the moment the card appears — it is what
@@ -70,8 +70,19 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
         transition={{ duration: span(BACKGROUND_SETTLE.duration), ease: easeLux }}
         className="absolute inset-0"
       >
-        <Image src={couple.heroPhoto} alt="" fill sizes="100vw" className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-wine-dark via-wine-dark/65 to-wine-dark/30" />
+        {/*
+          `priority`, not lazy.
+
+          This is the largest element on the first screen of every wedding
+          site, and it sits under a scrim whose bottom stop is fully opaque —
+          so until it paints, the whole viewport is a flat block of
+          `brand-deep` with the couple's names invisible against it. Lazy
+          loading defers exactly the one image the page cannot open without,
+          and it is worst on the template catalogue, where someone stepping
+          through designs sees a plain colour rectangle each time.
+        */}
+        <Image src={couple.heroPhoto} alt="" fill sizes="100vw" priority className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-deep via-brand-deep/65 to-brand-deep/30" />
       </m.div>
 
       {/*
@@ -89,13 +100,13 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
         key={revealed ? "hero-revealed" : "hero-sealed"}
         aria-hidden={!revealed}
         className={cn(
-          "z-10 flex flex-col items-center gap-6 px-6 text-center text-ivory",
+          "z-10 flex flex-col items-center gap-6 px-6 text-center text-surface",
           revealed ? "relative" : "pointer-events-none invisible absolute inset-x-0"
         )}
       >
         <m.p
           {...beat(REVEAL.eyebrow)}
-          className="font-sans text-xs uppercase tracking-[0.35em] text-gold-light"
+          className="font-sans text-xs uppercase tracking-[0.35em] text-gilt-soft"
         >
           We&apos;re Getting Married
         </m.p>
@@ -110,7 +121,7 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
                 ? { duration: 0.24 }
                 : { delay: REVEAL.ampersand, type: "spring", stiffness: 260, damping: 15 }
             }
-            className="inline-block font-script text-4xl text-gold sm:text-5xl md:text-6xl"
+            className="inline-block font-script text-4xl text-gilt-ink sm:text-5xl md:text-6xl"
           >
             &amp;
           </m.span>{" "}
@@ -120,7 +131,7 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
         {/* Gold divider, drawn rather than faded. */}
         <m.svg
           viewBox="0 0 120 16"
-          className="h-4 w-24 text-gold"
+          className="h-4 w-24 text-gilt-ink"
           fill="none"
           aria-hidden="true"
           initial="hidden"
@@ -157,7 +168,7 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
 
         <m.p
           {...beat(REVEAL.message)}
-          className="max-w-md text-base leading-relaxed text-ivory/85 sm:text-lg"
+          className="max-w-md text-base leading-relaxed text-surface/85 sm:text-lg"
         >
           {invitationMessage}
         </m.p>
@@ -166,7 +177,7 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
           initial={{ opacity: 0, letterSpacing: prefersReducedMotion ? "0.2em" : "0.4em" }}
           animate={{ opacity: 1, letterSpacing: "0.2em" }}
           transition={{ delay: at(REVEAL.date), duration: span(0.9), ease: easeLux }}
-          className="font-display text-lg text-gold-light sm:text-xl"
+          className="font-display text-lg text-gilt-soft sm:text-xl"
         >
           {formattedDate}
         </m.p>
@@ -180,7 +191,7 @@ export function Hero({ couple, weddingDate, invitationMessage }: HeroProps) {
           animate={{ opacity: 1 }}
           transition={{ delay: at(REVEAL.scrollCue), duration: span(0.6) }}
           whileHover={{ y: -3, transition: hoverSpring }}
-          className="absolute bottom-8 z-10 flex flex-col items-center gap-1 text-ivory/70 transition-colors hover:text-ivory focus-visible:text-ivory focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+          className="absolute bottom-8 z-10 flex flex-col items-center gap-1 text-surface/70 transition-colors hover:text-surface focus-visible:text-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gilt"
           aria-label="Scroll to next section"
         >
           <span className="text-[0.65rem] uppercase tracking-[0.3em]">Scroll</span>

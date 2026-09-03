@@ -62,16 +62,18 @@ interface EnvelopeIntroProps {
 export function EnvelopeIntro({ couple, weddingDate, invitationMessage }: EnvelopeIntroProps) {
   const prefersReducedMotion = useReducedMotion();
   const tier = useDeviceCapability();
-  const { phase, revealed, startReveal } = useIntro();
+  const { phase, revealed, startReveal, skipped } = useIntro();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [diving, setDiving] = useState(false);
   const [painted, setPainted] = useState(false);
 
   /**
    * Reduced motion gets no film at all: this is a hard autoplay the guest cannot
-   * interrupt, which is exactly what that setting asks us not to do.
+   * interrupt, which is exactly what that setting asks us not to do. The
+   * catalogue gets none either — there, the design is the subject, and the
+   * opening is twelve seconds standing in front of it.
    */
-  const cinematic = !prefersReducedMotion;
+  const cinematic = !prefersReducedMotion && !skipped;
   const playing = cinematic && phase === "envelope";
 
   // Held back until the curtain is out of the way, so the opening doesn't play
@@ -182,7 +184,7 @@ export function EnvelopeIntro({ couple, weddingDate, invitationMessage }: Envelo
             initial={false}
             animate={{ opacity: diving ? 1 : 0 }}
             transition={{ duration: ENVELOPE_FADE, ease: easeOut }}
-            className="pointer-events-none absolute inset-0 bg-wine-dark"
+            className="pointer-events-none absolute inset-0 bg-brand-deep"
           />
         </>
       )}
@@ -213,7 +215,7 @@ export function EnvelopeIntro({ couple, weddingDate, invitationMessage }: Envelo
           initial={false}
           animate={diving ? { opacity: 0, borderRadius: "0px" } : { opacity: 1, borderRadius: "36px" }}
           transition={{ duration: ENVELOPE.emerge, ease: easeLux }}
-          className="pointer-events-none absolute inset-0 border-2 border-gold/60"
+          className="pointer-events-none absolute inset-0 border-2 border-gilt/60"
         />
       </m.div>
     </section>

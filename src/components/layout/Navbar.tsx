@@ -60,16 +60,16 @@ export function Navbar({ brideName, groomName }: NavbarProps) {
       className={cn(
         "fixed inset-x-0 top-0 z-40 transition-colors duration-300",
         scrolled
-          ? "bg-ivory/90 backdrop-blur-sm shadow-[0_1px_0_0_var(--color-border)]"
+          ? "bg-surface/90 backdrop-blur-sm shadow-[0_1px_0_0_var(--color-border)]"
           : "bg-transparent"
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a
           href="#home"
-          className="font-display text-lg font-medium text-wine transition-colors hover:text-wine-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+          className="font-display text-lg font-medium text-brand transition-colors hover:text-brand-deep focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gilt"
         >
-          {brideName} <span className="font-script text-xl text-gold">&amp;</span> {groomName}
+          {brideName} <span className="font-script text-xl text-gilt">&amp;</span> {groomName}
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -77,12 +77,12 @@ export function Navbar({ brideName, groomName }: NavbarProps) {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="group relative text-sm font-medium text-charcoal transition-colors hover:text-wine focus-visible:text-wine focus-visible:outline-none"
+                className="group relative text-sm font-medium text-ink transition-colors hover:text-brand focus-visible:text-brand focus-visible:outline-none"
               >
                 {link.label}
                 {/* Gold underline wipes out from the centre. CSS, not a spring:
                     six of these on screen and it's pure decoration. */}
-                <span className="absolute -bottom-1 left-0 h-px w-full origin-center scale-x-0 bg-gold transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+                <span className="absolute -bottom-1 left-0 h-px w-full origin-center scale-x-0 bg-gilt transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100" />
               </a>
             </li>
           ))}
@@ -92,17 +92,17 @@ export function Navbar({ brideName, groomName }: NavbarProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden h-11 w-11 text-wine"
+            className="md:hidden h-11 w-11 text-brand"
             aria-label="Open menu"
             onClick={() => setOpen(true)}
           >
             <Menu className="size-5" />
           </Button>
-          <SheetContent side="right" className="bg-ivory">
+          <SheetContent side="right" className="bg-surface">
             {/* Radix locks the body, but Lenis doesn't watch that. */}
             <LenisScrollLock active={open} />
             <SheetHeader>
-              <SheetTitle className="font-display text-wine">
+              <SheetTitle className="font-display text-brand">
                 {brideName} &amp; {groomName}
               </SheetTitle>
             </SheetHeader>
@@ -112,7 +112,7 @@ export function Navbar({ brideName, groomName }: NavbarProps) {
                   <SheetClose asChild>
                     <a
                       href={link.href}
-                      className="flex min-h-11 items-center text-base font-medium text-charcoal transition-colors hover:text-wine"
+                      className="flex min-h-11 items-center text-base font-medium text-ink transition-colors hover:text-brand"
                     >
                       {link.label}
                     </a>
@@ -126,7 +126,7 @@ export function Navbar({ brideName, groomName }: NavbarProps) {
 
       {/* Reading-progress hairline */}
       <m.div
-        className="absolute inset-x-0 bottom-0 h-px origin-left bg-gradient-to-r from-gold/0 via-gold to-gold/0"
+        className="absolute inset-x-0 bottom-0 h-px origin-left bg-gradient-to-r from-gilt/0 via-gilt to-gilt/0"
         style={{ scaleX: progress }}
         aria-hidden="true"
       />

@@ -63,7 +63,7 @@ export function GalleryLightbox({
             dragElastic={0.2}
             onDragEnd={handleDragEnd}
             transition={{ type: "spring", stiffness: 260, damping: 30 }}
-            className="relative aspect-[4/3] w-full max-w-3xl cursor-grab overflow-hidden rounded-xl bg-charcoal active:cursor-grabbing"
+            className="relative aspect-[4/3] w-full max-w-3xl cursor-grab overflow-hidden rounded-xl bg-ink active:cursor-grabbing"
           >
             <Image
               src={image.src}
@@ -88,7 +88,7 @@ export function GalleryLightbox({
               style={{ y: "-50%" }}
               whileHover={{ scale: 1.12, x: -2, transition: hoverSpring }}
               whileTap={tapPress}
-              className="absolute top-1/2 left-4 rounded-full bg-ivory/80 p-2 text-wine transition-colors hover:bg-ivory focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="absolute top-1/2 left-4 rounded-full bg-surface/80 p-2 text-brand transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt"
             >
               <ChevronLeft className="size-5" />
             </m.button>
@@ -99,7 +99,7 @@ export function GalleryLightbox({
               style={{ y: "-50%" }}
               whileHover={{ scale: 1.12, x: 2, transition: hoverSpring }}
               whileTap={tapPress}
-              className="absolute top-1/2 right-4 rounded-full bg-ivory/80 p-2 text-wine transition-colors hover:bg-ivory focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="absolute top-1/2 right-4 rounded-full bg-surface/80 p-2 text-brand transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt"
             >
               <ChevronRight className="size-5" />
             </m.button>

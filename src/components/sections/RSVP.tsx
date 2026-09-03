@@ -81,7 +81,7 @@ export function RSVP({ rsvp }: RSVPProps) {
   }
 
   return (
-    <section id="rsvp" className="bg-ivory-dark py-20 sm:py-24">
+    <section id="rsvp" className="bg-surface-sunk py-20 sm:py-24">
       <div className="mx-auto max-w-xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="RSVP"
@@ -94,7 +94,7 @@ export function RSVP({ rsvp }: RSVPProps) {
           whileInView="visible"
           viewport={revealViewport}
           variants={fadeUp}
-          className="mt-12 rounded-2xl border border-gold/25 bg-ivory p-6 shadow-sm sm:p-10"
+          className="mt-12 rounded-2xl border border-gilt/25 bg-surface p-6 shadow-sm sm:p-10"
         >
           <AnimatePresence mode="wait">
             {status === "success" ? (
@@ -104,9 +104,9 @@ export function RSVP({ rsvp }: RSVPProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex flex-col items-center gap-4 py-6 text-center"
               >
-                <CheckCircle2 className="size-12 text-wine" aria-hidden="true" />
-                <h3 className="font-display text-2xl text-wine">Thank You!</h3>
-                <p className="max-w-sm text-sm text-charcoal-muted">
+                <CheckCircle2 className="size-12 text-brand" aria-hidden="true" />
+                <h3 className="font-display text-2xl text-brand">Thank You!</h3>
+                <p className="max-w-sm text-sm text-ink-soft">
                   Your RSVP has been received. We can&apos;t wait to celebrate with you.
                 </p>
               </m.div>
@@ -159,10 +159,10 @@ export function RSVP({ rsvp }: RSVPProps) {
                         whileTap={tapPress}
                         transition={hoverSpring}
                         className={cn(
-                          "relative flex-1 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
+                          "relative flex-1 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt",
                           attending === option.value
-                            ? "border-wine text-ivory"
-                            : "border-gold/40 bg-transparent text-charcoal hover:border-wine"
+                            ? "border-brand text-surface"
+                            : "border-gilt/40 bg-transparent text-ink hover:border-brand"
                         )}
                         aria-pressed={attending === option.value}
                       >
@@ -171,7 +171,7 @@ export function RSVP({ rsvp }: RSVPProps) {
                         {attending === option.value && (
                           <m.span
                             layoutId="rsvp-attending"
-                            className="absolute inset-0 rounded-full bg-wine"
+                            className="absolute inset-0 rounded-full bg-brand"
                             transition={{ type: "spring", stiffness: 350, damping: 32 }}
                           />
                         )}

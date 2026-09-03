@@ -92,20 +92,20 @@ export function CurtainLoader({ brideName, groomName, poster }: CurtainLoaderPro
         >
           {/* Two halves that draw apart like a theatre curtain. */}
           <m.div
-            className="absolute inset-y-0 left-0 w-1/2 bg-wine-dark"
+            className="absolute inset-y-0 left-0 w-1/2 bg-brand-deep"
             initial={{ x: "0%" }}
             animate={{ x: ready && !prefersReducedMotion ? "-100%" : "0%" }}
             transition={splitTransition}
           />
           <m.div
-            className="absolute inset-y-0 right-0 w-1/2 bg-wine-dark"
+            className="absolute inset-y-0 right-0 w-1/2 bg-brand-deep"
             initial={{ x: "0%" }}
             animate={{ x: ready && !prefersReducedMotion ? "100%" : "0%" }}
             transition={splitTransition}
           />
           {/* Hairline seam where the halves meet. */}
           <m.div
-            className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-gold/30"
+            className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-gilt/30"
             animate={{ opacity: ready ? 0 : 1 }}
             transition={{ duration: 0.3 }}
           />
@@ -117,9 +117,9 @@ export function CurtainLoader({ brideName, groomName, poster }: CurtainLoaderPro
           >
             <Monogram brideName={brideName} groomName={groomName} />
 
-            <div className="h-px w-40 overflow-hidden bg-gold/20">
+            <div className="h-px w-40 overflow-hidden bg-gilt/20">
               <m.div
-                className="h-full w-full origin-left bg-gold"
+                className="h-full w-full origin-left bg-gilt"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: ready ? 1 : 0.7 }}
                 transition={{

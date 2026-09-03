@@ -19,7 +19,7 @@ export function CoupleSection({ couple }: CoupleSectionProps) {
   const groomY = useParallax(sectionRef, -50);
 
   return (
-    <section ref={sectionRef} id="couple" className="bg-ivory py-20 sm:py-24">
+    <section ref={sectionRef} id="couple" className="bg-surface py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <SectionHeading eyebrow="The Couple" title="Two Hearts, One Story" />
 
@@ -39,9 +39,9 @@ export function CoupleSection({ couple }: CoupleSectionProps) {
                     still, so the frame reads as opening around it. */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-1 rounded-full border border-gold/0 transition-all duration-500 ease-out group-hover/frame:-inset-2 group-hover/frame:border-gold/70"
+                  className="pointer-events-none absolute -inset-1 rounded-full border border-gilt/0 transition-all duration-500 ease-out group-hover/frame:-inset-2 group-hover/frame:border-gilt/70"
                 />
-                <div className="relative size-full overflow-hidden rounded-full border-4 border-gold/40 shadow-md transition-colors duration-500 group-hover/frame:border-gold/70">
+                <div className="relative size-full overflow-hidden rounded-full border-4 border-gilt/40 shadow-md transition-colors duration-500 group-hover/frame:border-gilt/70">
                   <Image
                     src={couple.bridePhoto}
                     alt={`Portrait of ${couple.brideName}`}
@@ -52,8 +52,8 @@ export function CoupleSection({ couple }: CoupleSectionProps) {
                 </div>
               </div>
               <figcaption>
-                <p className="font-display text-2xl text-wine sm:text-3xl">{couple.brideName}</p>
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-charcoal-muted">
+                <p className="font-display text-2xl text-brand sm:text-3xl">{couple.brideName}</p>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-soft">
                   {couple.brideIntro}
                 </p>
               </figcaption>
@@ -62,7 +62,7 @@ export function CoupleSection({ couple }: CoupleSectionProps) {
 
           <m.span
             variants={fadeUp}
-            className="font-script text-5xl text-gold sm:text-6xl"
+            className="font-script text-5xl text-gilt-ink sm:text-6xl"
             aria-hidden="true"
           >
             &amp;
@@ -75,9 +75,9 @@ export function CoupleSection({ couple }: CoupleSectionProps) {
                     still, so the frame reads as opening around it. */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-1 rounded-full border border-gold/0 transition-all duration-500 ease-out group-hover/frame:-inset-2 group-hover/frame:border-gold/70"
+                  className="pointer-events-none absolute -inset-1 rounded-full border border-gilt/0 transition-all duration-500 ease-out group-hover/frame:-inset-2 group-hover/frame:border-gilt/70"
                 />
-                <div className="relative size-full overflow-hidden rounded-full border-4 border-gold/40 shadow-md transition-colors duration-500 group-hover/frame:border-gold/70">
+                <div className="relative size-full overflow-hidden rounded-full border-4 border-gilt/40 shadow-md transition-colors duration-500 group-hover/frame:border-gilt/70">
                   <Image
                     src={couple.groomPhoto}
                     alt={`Portrait of ${couple.groomName}`}
@@ -88,8 +88,8 @@ export function CoupleSection({ couple }: CoupleSectionProps) {
                 </div>
               </div>
               <figcaption>
-                <p className="font-display text-2xl text-wine sm:text-3xl">{couple.groomName}</p>
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-charcoal-muted">
+                <p className="font-display text-2xl text-brand sm:text-3xl">{couple.groomName}</p>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-soft">
                   {couple.groomIntro}
                 </p>
               </figcaption>

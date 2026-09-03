@@ -29,7 +29,7 @@ export function WeddingEvents({ events }: WeddingEventsProps) {
   return (
     // Stays light: OurStory and Venue on either side are both `ivory-dark`,
     // and the ticket notches are cut in this section's colour.
-    <section ref={sectionRef} id="events" className="bg-ivory py-20 sm:py-24">
+    <section ref={sectionRef} id="events" className="bg-surface py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="Celebrations"

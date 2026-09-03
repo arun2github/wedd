@@ -28,20 +28,20 @@ export function FinalInvitation({ couple, weddingDate }: FinalInvitationProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-wine-dark py-24"
+      className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-brand-deep py-24"
     >
       {/* Over-sized so the translate never exposes a gap at the section edge. */}
       <m.div style={{ y }} className="absolute -inset-y-[12%] inset-x-0">
         <Image src={couple.heroPhoto} alt="" fill sizes="100vw" className="object-cover" />
       </m.div>
-      <div className="absolute inset-0 bg-wine-dark/75" />
+      <div className="absolute inset-0 bg-brand-deep/75" />
 
       <m.div
         initial="hidden"
         whileInView="visible"
         viewport={revealViewport}
         variants={staggerContainer(0.15)}
-        className="relative z-10 flex flex-col items-center gap-5 px-6 text-center text-ivory"
+        className="relative z-10 flex flex-col items-center gap-5 px-6 text-center text-surface"
       >
         <m.p
           variants={fadeUp}
@@ -50,12 +50,12 @@ export function FinalInvitation({ couple, weddingDate }: FinalInvitationProps) {
           We can&apos;t wait to celebrate with you
         </m.p>
         <m.div variants={fadeUp}>
-          <GoldDivider className="text-gold-light" />
+          <GoldDivider className="text-gilt-soft" />
         </m.div>
-        <m.p variants={fadeUp} className="font-script text-4xl text-gold-light sm:text-5xl">
+        <m.p variants={fadeUp} className="font-script text-4xl text-gilt-soft sm:text-5xl">
           {couple.brideName} &amp; {couple.groomName}
         </m.p>
-        <m.p variants={fadeUp} className="text-sm tracking-[0.2em] text-ivory/80 uppercase">
+        <m.p variants={fadeUp} className="text-sm tracking-[0.2em] text-surface/80 uppercase">
           {formattedDate}
         </m.p>
       </m.div>

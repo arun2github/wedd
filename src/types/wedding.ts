@@ -76,7 +76,7 @@ export interface WeddingData {
   events: WeddingEvent[];
   venue: VenueInfo;
   gallery: GalleryImage[];
-  video: WeddingVideo;
+  video?: WeddingVideo;
   families: FamiliesInfo;
   rsvp: RsvpConfig;
 }

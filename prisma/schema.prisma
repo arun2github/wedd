@@ -10,16 +10,176 @@ datasource db {
   provider = "postgresql"
 }
 
-model RSVP {
-  id          String   @id @default(cuid())
-  weddingSlug String   @default("arun-priya")
-  guestName   String
-  email       String
-  phone       String
-  attending   Boolean
-  guestCount  Int      @default(1)
-  message     String?
-  createdAt   DateTime @default(now())
+/// Lifecycle of a tenant's wedding site.
+///
+/// `DRAFT` is the free build-and-preview state — the couple can fill in
+/// everything and share a private preview link, but `/wedding/<slug>` 404s.
+/// Publishing is what they pay for, so it is `status` that the paywall reads,
+/// not a separate flag.
+enum TenantStatus {
+  DRAFT
+  ACTIVE
+  SUSPENDED
+  EXPIRED
+}
 
-  @@index([weddingSlug])
+enum Tier {
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+/// One wedding. The unit of isolation: every tenant-owned row carries
+/// `tenantId`, and `src/lib/dal.ts` is the only place allowed to query without
+/// one already in hand.
+model Tenant {
+  id     String       @id @default(cuid())
+  /// The public URL segment — `/wedding/arun-priya`.
+  slug   String       @unique
+  status TenantStatus @default(DRAFT)
+  /// Null until an order is paid. Entitlements are derived from this, never
+  /// stored per-tenant, so a tier's contents can change without a backfill.
+  tier   Tier?
+
+  /// When the published site stops serving. Null while unpublished.
+  liveUntil DateTime?
+
+  /// Opaque token for the private draft preview link. Rotatable, so a couple
+  /// who shared it with the wrong person can invalidate it.
+  previewToken String @unique @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  site  WeddingSite?
+  rsvps RsvpResponse[]
+
+  @@index([status])
+}
+
+/// The content of one wedding site, held as two validated JSON documents.
+///
+/// JSON rather than a dozen relational tables because the template consumes
+/// `WeddingData` whole and nothing ever queries across tenants by story
+/// milestone — the joins would buy nothing. What it does buy: draft/publish is
+/// a copy, preview is a different column, and rollback is a snapshot.
+model WeddingSite {
+  id       String @id @default(cuid())
+  tenantId String @unique
+
+  /// Which shape `draftContent` conforms to. Lets the content contract move
+  /// without blank-screening tenants written against an older one.
+  schemaVersion Int    @default(1)
+  templateId    String @default("royal-ivory")
+  /// Which colourway of that design. Null means the design's own palette, so
+  /// every existing row keeps exactly the look it already had.
+  colorwayId    String?
+
+  /// Validated against `weddingContentSchema` on every write.
+  draftContent Json
+  /// Null until the first publish. This — not `draftContent` — is what the
+  /// public route reads, so an in-progress edit is never visible to guests.
+  publishedContent Json?
+  publishedAt      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+}
+
+model RsvpResponse {
+  id         String   @id @default(cuid())
+  tenantId   String
+  guestName  String
+  email      String
+  phone      String
+  attending  Boolean
+  guestCount Int      @default(1)
+  message    String?
+  createdAt  DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  /// Compound rather than two single-column indexes: every query is "this
+  /// tenant's responses, newest first", never "all responses on a date".
+  @@index([tenantId, createdAt])
+}
+
+/// Better Auth owns the four models below.
+///
+/// Their shape is dictated by the library, not chosen here — it was read out of
+/// `getAuthTables()` in the installed version rather than copied from docs,
+/// which matters because `Account.issuer` became required in 1.7 and most
+/// published examples still omit it. Table names are lowercase to match what
+/// the adapter queries.
+///
+/// `role` separates the two kinds of account that now exist. Sign-up is open
+/// so couples can build their own site, which means "has a valid session" no
+/// longer implies "may open the console" — every account created through the
+/// public form is a `customer`, and `operator` is granted deliberately by
+/// `npm run admin:create`. Without this column, opening registration would
+/// have handed the console to anyone who could type an email address.
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  role          String    @default("customer")
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  issuer                String
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  /// Hashed by Better Auth (scrypt). Never a plaintext password.
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }

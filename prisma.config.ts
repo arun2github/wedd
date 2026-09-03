@@ -7,6 +7,10 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
+    /* `tsx` rather than bare `node`: Node 24 strips types happily, but the
+       Prisma 7 generated client is emitted as `.ts` with extensionless
+       relative imports, which Node's ESM resolver will not follow. */
+    seed: "tsx prisma/seed.ts",
   },
   datasource: {
     url: process.env["DATABASE_URL"],

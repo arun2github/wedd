@@ -21,7 +21,7 @@ export function Monogram({ brideName, groomName }: MonogramProps) {
     <div className="relative flex size-36 items-center justify-center">
       <m.svg
         viewBox="0 0 100 100"
-        className="absolute inset-0 size-full text-gold"
+        className="absolute inset-0 size-full text-gilt"
         fill="none"
         aria-hidden="true"
       >
@@ -53,13 +53,13 @@ export function Monogram({ brideName, groomName }: MonogramProps) {
       </m.svg>
 
       <m.span
-        className="font-script text-5xl text-gold-light"
+        className="font-script text-5xl text-gilt-soft"
         initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.35, ease: easeOut }}
       >
         {initials.charAt(0)}
-        <span className="mx-0.5 text-3xl text-gold">&amp;</span>
+        <span className="mx-0.5 text-3xl text-gilt">&amp;</span>
         {initials.charAt(1)}
       </m.span>
     </div>

@@ -33,16 +33,16 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <span className="text-xs font-medium tracking-[0.25em] text-gold uppercase">
+        <span className="text-xs font-medium tracking-[0.25em] text-gilt uppercase">
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-wine text-balance">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-brand text-balance">
         {title}
       </h2>
       <GoldDivider />
       {description && (
-        <p className="max-w-xl text-charcoal-muted text-balance">{description}</p>
+        <p className="max-w-xl text-ink-soft text-balance">{description}</p>
       )}
     </m.div>
   );

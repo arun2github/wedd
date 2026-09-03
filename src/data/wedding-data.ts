@@ -1,25 +1,39 @@
-import type { WeddingData } from "@/types/wedding";
+import type { WeddingContent } from "@/lib/content-schema";
 
 /**
- * Single source of truth for this wedding invitation.
- * Every section reads its slice from here via props — swap this file
- * (or fetch it per-tenant) to reuse the entire template for a new couple.
+ * The demo tenant's content.
+ *
+ * This was the single source of truth for one hardcoded wedding. It is now
+ * seed data: `prisma/seed.ts` writes it into the `aman-priya` tenant's
+ * `draftContent` and `publishedContent`, and the site reads it back from
+ * there. Keeping it as a checked-in TypeScript literal means the demo tenant
+ * can be rebuilt from an empty database, and that it stays type-checked
+ * against the same contract every tenant is validated against.
+ *
+ * Typed as `WeddingContent`, not `WeddingData` — `rsvp.endpoint` is derived
+ * from the slug by `toWeddingData`, not authored.
  */
 
 function unsplash(id: string, w: number) {
   return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
 }
 
-export const weddingData: WeddingData = {
+/** The demo tenant's slug, and the one the existing RSVP rows migrated onto. */
+export const DEMO_SLUG = "aman-priya";
+
+export const demoWeddingContent: WeddingContent = {
   couple: {
-    brideName: "Aman",
-    groomName: "Priya",
+    /* The bride is Priya, the groom Aman. Changed here and nowhere else:
+       every section takes these as props, so no component carries a name of
+       its own and a rename never needs chasing through the tree. */
+    brideName: "Priya",
+    groomName: "Aman",
     brideIntro:
-      "A dreamer with a warm heart, Aman finds joy in quiet mornings, old films, and building a home filled with love and laughter.",
-    groomIntro:
       "Steady and kind, Priya believes the best stories are the ones written together — one adventure, one cup of chai at a time.",
-    bridePhoto: unsplash("1519741497674-611481863552", 900),
-    groomPhoto: unsplash("1493863641943-9b68992a8d07", 900),
+    groomIntro:
+      "A dreamer with a warm heart, Aman finds joy in quiet mornings, old films, and building a home filled with love and laughter.",
+    bridePhoto: unsplash("1493863641943-9b68992a8d07", 900),
+    groomPhoto: unsplash("1519741497674-611481863552", 900),
     heroPhoto: unsplash("1606216794074-735e91aa2c92", 1920),
   },
   weddingDate: "2027-02-14T19:00:00+05:30",
@@ -89,7 +103,7 @@ export const weddingData: WeddingData = {
       time: "7:00 PM",
       venue: "Rosewood Estate, Main Pavilion",
       description:
-        "The sacred rites uniting Arun and Priya, followed by an evening of celebration.",
+        "The sacred rites uniting Aman and Priya, followed by an evening of celebration.",
       icon: "flame",
       mapUrl: "https://maps.google.com/?q=Rosewood+Estate",
     },
@@ -111,7 +125,7 @@ export const weddingData: WeddingData = {
     directionsUrl: "https://maps.google.com/?q=Rosewood+Estate+Udaipur",
   },
   gallery: [
-    { src: unsplash("1600096194534-95cf5ece04cf", 900), category: "pre-wedding", alt: "Arun and Priya walking together at golden hour", aspect: "portrait" },
+    { src: unsplash("1600096194534-95cf5ece04cf", 900), category: "pre-wedding", alt: "Aman and Priya walking together at golden hour", aspect: "portrait" },
     { src: unsplash("1595407753234-0882f1e77954", 900), category: "pre-wedding", alt: "Candid pre-wedding portrait of the couple", aspect: "landscape" },
     { src: unsplash("1583417319070-4a69db38a482", 900), category: "pre-wedding", alt: "Pre-wedding shoot by the lake", aspect: "square" },
     { src: unsplash("1526047932273-341f2a7631f9", 900), category: "engagement", alt: "Engagement ring close-up", aspect: "square" },
@@ -127,13 +141,10 @@ export const weddingData: WeddingData = {
     { src: unsplash("1465495976277-4387d4b0b4c6", 900), category: "wedding", alt: "Bride on her wedding day", aspect: "portrait" },
     { src: unsplash("1606800052052-a08af7148866", 900), category: "wedding", alt: "Newlyweds sharing a joyful moment", aspect: "square" },
   ],
-  video: {
-    thumbnail: unsplash("1611930022073-b7a4ba5fcccd", 1600),
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    title: "Our Journey Together",
-    description:
-      "A short film capturing the moments, big and small, that brought us to this day.",
-  },
+  /* No `video` until there is a real film to show. This previously held a
+     YouTube id that is a well-known prank, and it rendered inside "Our Journey
+     Together" on every one of the twelve demos and on the published demo
+     tenant. */
   families: {
     brideFamily: {
       title: "Bride's Family",
@@ -143,8 +154,5 @@ export const weddingData: WeddingData = {
       title: "Groom's Family",
       names: "Mr. & Mrs. Kumar",
     },
-  },
-  rsvp: {
-    endpoint: "/api/rsvp",
   },
 };

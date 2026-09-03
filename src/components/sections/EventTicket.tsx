@@ -30,43 +30,47 @@ import type { WeddingEvent } from "@/types/wedding";
  *
  * Classes are written out in full rather than composed (`text-${accent}`)
  * because Tailwind only generates what it can find as a literal in the source.
+ *
+ * The glow is a `color-mix` on the same role variable rather than a literal
+ * rgba. A hardcoded rgba would have stayed turmeric-yellow under every
+ * template, which is the one thing a themeable palette must not allow.
  */
 const CEREMONY = {
   sparkles: {
     Icon: Sparkles,
-    text: "text-haldi",
-    rail: "bg-haldi",
-    chip: "bg-haldi/10 text-haldi",
-    surface: "bg-gradient-to-br from-haldi/10 via-ivory-dark to-ivory-dark",
-    edge: "group-hover/ticket:border-haldi/50 group-focus-within/ticket:border-haldi/50",
-    glow: "rgba(130,96,15,0.30)",
+    text: "text-rite-1",
+    rail: "bg-rite-1",
+    chip: "bg-rite-1/10 text-rite-1",
+    surface: "bg-gradient-to-br from-rite-1/10 via-surface-sunk to-surface-sunk",
+    edge: "group-hover/ticket:border-rite-1/50 group-focus-within/ticket:border-rite-1/50",
+    glow: "color-mix(in oklab, var(--rite-1) 30%, transparent)",
   },
   flower: {
     Icon: Flower,
-    text: "text-mehendi",
-    rail: "bg-mehendi",
-    chip: "bg-mehendi/10 text-mehendi",
-    surface: "bg-gradient-to-br from-mehendi/10 via-ivory-dark to-ivory-dark",
-    edge: "group-hover/ticket:border-mehendi/50 group-focus-within/ticket:border-mehendi/50",
-    glow: "rgba(64,86,44,0.30)",
+    text: "text-rite-2",
+    rail: "bg-rite-2",
+    chip: "bg-rite-2/10 text-rite-2",
+    surface: "bg-gradient-to-br from-rite-2/10 via-surface-sunk to-surface-sunk",
+    edge: "group-hover/ticket:border-rite-2/50 group-focus-within/ticket:border-rite-2/50",
+    glow: "color-mix(in oklab, var(--rite-2) 30%, transparent)",
   },
   flame: {
     Icon: Flame,
-    text: "text-wine",
-    rail: "bg-wine",
-    chip: "bg-wine/10 text-wine",
-    surface: "bg-gradient-to-br from-wine/10 via-ivory-dark to-ivory-dark",
-    edge: "group-hover/ticket:border-wine/50 group-focus-within/ticket:border-wine/50",
-    glow: "rgba(92,14,29,0.30)",
+    text: "text-brand",
+    rail: "bg-brand",
+    chip: "bg-brand/10 text-brand",
+    surface: "bg-gradient-to-br from-brand/10 via-surface-sunk to-surface-sunk",
+    edge: "group-hover/ticket:border-brand/50 group-focus-within/ticket:border-brand/50",
+    glow: "color-mix(in oklab, var(--brand) 30%, transparent)",
   },
   heart: {
     Icon: Heart,
-    text: "text-plum",
-    rail: "bg-plum",
-    chip: "bg-plum/10 text-plum",
-    surface: "bg-gradient-to-br from-plum/10 via-ivory-dark to-ivory-dark",
-    edge: "group-hover/ticket:border-plum/50 group-focus-within/ticket:border-plum/50",
-    glow: "rgba(74,37,69,0.30)",
+    text: "text-rite-3",
+    rail: "bg-rite-3",
+    chip: "bg-rite-3/10 text-rite-3",
+    surface: "bg-gradient-to-br from-rite-3/10 via-surface-sunk to-surface-sunk",
+    edge: "group-hover/ticket:border-rite-3/50 group-focus-within/ticket:border-rite-3/50",
+    glow: "color-mix(in oklab, var(--rite-3) 30%, transparent)",
   },
 } as const;
 
@@ -140,7 +144,7 @@ export function EventTicket({ event, day, y }: EventTicketProps) {
         onPointerLeave={handlePointerLeave}
         whileHover={interactive ? undefined : { y: -6 }}
         style={interactive ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
-        className={`group/ticket relative flex h-full flex-col overflow-hidden rounded-xl border border-gold/25 ${ceremony.surface} shadow-sm transition-[box-shadow,border-color] duration-300 hover:shadow-xl focus-within:shadow-xl ${ceremony.edge}`}
+        className={`group/ticket relative flex h-full flex-col overflow-hidden rounded-xl border border-gilt/25 ${ceremony.surface} shadow-sm transition-[box-shadow,border-color] duration-300 hover:shadow-xl focus-within:shadow-xl ${ceremony.edge}`}
       >
         {/*
           Ceremony watermark. Large, barely-there, and clipped by the card's
@@ -191,7 +195,7 @@ export function EventTicket({ event, day, y }: EventTicketProps) {
             <ceremony.Icon className="size-5" aria-hidden="true" />
           </span>
 
-          <h3 className="font-display text-xl leading-tight text-charcoal">{event.name}</h3>
+          <h3 className="font-display text-xl leading-tight text-ink">{event.name}</h3>
 
           <p className={`text-sm font-semibold tracking-wide ${ceremony.text}`}>
             <time dateTime={event.date}>{formattedDate}</time>
@@ -199,7 +203,7 @@ export function EventTicket({ event, day, y }: EventTicketProps) {
             {event.time}
           </p>
 
-          <p className="text-sm leading-relaxed text-charcoal-muted">{event.description}</p>
+          <p className="text-sm leading-relaxed text-ink-soft">{event.description}</p>
         </div>
 
         {/*
@@ -209,14 +213,14 @@ export function EventTicket({ event, day, y }: EventTicketProps) {
           is exactly the bite a real perforation leaves.
         */}
         <div aria-hidden="true" className="relative px-12">
-          <span className="absolute top-1/2 -left-2 size-4 -translate-y-1/2 rounded-full bg-ivory" />
-          <span className="absolute top-1/2 -right-2 size-4 -translate-y-1/2 rounded-full bg-ivory" />
-          <span className="block border-t border-dashed border-gold/40" />
+          <span className="absolute top-1/2 -left-2 size-4 -translate-y-1/2 rounded-full bg-surface" />
+          <span className="absolute top-1/2 -right-2 size-4 -translate-y-1/2 rounded-full bg-surface" />
+          <span className="block border-t border-dashed border-gilt/40" />
         </div>
 
         {/* Stub footer — where a real ticket prints the venue and admission. */}
         <div className="relative flex flex-col gap-2 py-5 pr-6 pl-12">
-          <p className="text-xs tracking-[0.14em] text-charcoal-muted/70 uppercase">Venue</p>
+          <p className="text-xs tracking-[0.14em] text-ink-soft/70 uppercase">Venue</p>
 
           {event.mapUrl ? (
             /*
@@ -233,19 +237,19 @@ export function EventTicket({ event, day, y }: EventTicketProps) {
               href={event.mapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-9 w-fit items-start gap-1.5 text-sm leading-snug text-charcoal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="inline-flex min-h-9 w-fit items-start gap-1.5 text-sm leading-snug text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gilt"
             >
               <MapPin
                 className={`mt-0.5 size-4 shrink-0 ${ceremony.text} transition-transform duration-300 group-hover/ticket:-translate-y-0.5`}
                 aria-hidden="true"
               />
-              <span className="underline decoration-gold/30 decoration-1 underline-offset-4 transition-colors duration-300 group-hover/ticket:decoration-gold">
+              <span className="underline decoration-gilt/30 decoration-1 underline-offset-4 transition-colors duration-300 group-hover/ticket:decoration-gilt">
                 {event.venue}
               </span>
               <span className="sr-only">, map for {event.name}</span>
             </a>
           ) : (
-            <p className="min-h-9 text-sm leading-snug text-charcoal">{event.venue}</p>
+            <p className="min-h-9 text-sm leading-snug text-ink">{event.venue}</p>
           )}
         </div>
       </m.article>

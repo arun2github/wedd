@@ -30,6 +30,15 @@ interface IntroContextValue {
   finishLoading: () => void;
   /** The envelope has finished opening — starts the hero cascade. Idempotent. */
   startReveal: () => void;
+  /**
+   * True when this page was mounted already finished.
+   *
+   * Components need this rather than `phase === "done"`, because every page
+   * eventually reaches `done`. This says the opening never ran at all, so a
+   * section can lay itself out as the finished article from the first frame
+   * instead of switching layout when the film ends.
+   */
+  skipped: boolean;
 }
 
 const IntroContext = createContext<IntroContextValue | null>(null);
@@ -40,10 +49,25 @@ export function useIntro(): IntroContextValue {
   return value;
 }
 
-export function IntroProvider({ children }: { children: ReactNode }) {
+export function IntroProvider({
+  children,
+  /*
+    The template catalogue mounts at `done`.
+
+    Starting there rather than skipping forward after mount matters: the
+    curtain renders on `phase === "loading"`, so a late skip mounts it closed
+    and then races its own entrance animation with an exit — which strands it
+    half-faded over the page. Beginning at `done` means it is never mounted.
+  */
+  initialPhase = "loading",
+}: {
+  children: ReactNode;
+  initialPhase?: IntroPhase;
+}) {
   const prefersReducedMotion = useReducedMotion();
   const scroll = useScrollController();
-  const [phase, setPhase] = useState<IntroPhase>("loading");
+  const [phase, setPhase] = useState<IntroPhase>(initialPhase);
+  const skipped = initialPhase === "done";
 
   const finishLoading = useCallback(() => {
     setPhase((current) => (current === "loading" ? "envelope" : current));
@@ -76,8 +100,9 @@ export function IntroProvider({ children }: { children: ReactNode }) {
       revealed: phase === "revealing" || phase === "done",
       finishLoading,
       startReveal,
+      skipped,
     }),
-    [phase, finishLoading, startReveal]
+    [phase, finishLoading, startReveal, skipped]
   );
 
   return <IntroContext.Provider value={value}>{children}</IntroContext.Provider>;

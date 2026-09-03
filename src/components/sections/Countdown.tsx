@@ -26,7 +26,7 @@ export function Countdown({ weddingDate }: CountdownProps) {
     <section
       ref={sectionRef}
       id="countdown"
-      className="relative overflow-hidden bg-ivory-dark py-20 sm:py-24"
+      className="relative overflow-hidden bg-surface-sunk py-20 sm:py-24"
     >
       {/* Decorative gold bloom behind the tiles. Over-sized so the drift never
           clips into a hard edge at the section boundary. */}
@@ -42,7 +42,7 @@ export function Countdown({ weddingDate }: CountdownProps) {
           whileInView="visible"
           viewport={revealViewport}
           variants={fadeUp}
-          className="text-center font-display text-xl text-wine sm:text-2xl"
+          className="text-center font-display text-xl text-brand sm:text-2xl"
         >
           {parts.isPast ? "Forever begins" : "Counting down to forever"}
         </m.p>
@@ -58,12 +58,12 @@ export function Countdown({ weddingDate }: CountdownProps) {
             <m.div
               key={unit.key}
               variants={fadeUp}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-gold/30 bg-ivory px-4 py-8 shadow-sm"
+              className="flex flex-col items-center gap-2 rounded-2xl border border-gilt/30 bg-surface px-4 py-8 shadow-sm"
             >
-              <span className="font-display text-4xl tabular-nums text-wine sm:text-5xl">
+              <span className="font-display text-4xl tabular-nums text-brand sm:text-5xl">
                 {String(parts[unit.key]).padStart(2, "0")}
               </span>
-              <span className="text-xs font-medium uppercase tracking-[0.25em] text-charcoal-muted">
+              <span className="text-xs font-medium uppercase tracking-[0.25em] text-ink-soft">
                 {unit.label}
               </span>
             </m.div>

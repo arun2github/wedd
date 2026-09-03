@@ -4,7 +4,7 @@ export function GoldDivider({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 120 16"
-      className={cn("h-4 w-24 text-gold", className)}
+      className={cn("h-4 w-24 text-gilt", className)}
       fill="none"
       aria-hidden="true"
     >
