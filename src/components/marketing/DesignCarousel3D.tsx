@@ -36,22 +36,28 @@ export function DesignCarousel3D({
   /* Radius that seats `count` cards of this width around the cylinder without
      them intersecting: r = (w / 2) / tan(π / count). */
   /*
-    176, not larger.
+    Card width and perspective are one decision, not two.
 
-    The front of the ring sits at `translateZ(radius)`, and with a 1100px
-    perspective that magnifies it by `1100 / (1100 - radius)`. Widening the
-    card widens the radius, which pushes the front card closer to the eye and
-    magnifies it faster than it grew: at 208 the front face projects 480×625
-    inside a 480px-tall stage and its top and bottom are cut off. At 176 it
-    projects 338×442, which clears a 32rem stage. A bigger card here has to be
-    paid for in perspective, not in width.
+    The front of the ring sits at `translateZ(radius)`, so the browser
+    magnifies it by `P / (P - radius)`. A short perspective magnifies the front
+    card far harder than its neighbours — at P=1100 with a 176px card, the
+    front projects 338px against 223px two seats along, a 1.51× step that reads
+    as one card zoomed in and the rest pushed back.
+
+    Lengthening the perspective flattens that, but it also shrinks the front
+    card (338 → 226 at P=2400), so the two have to move together: a longer
+    perspective for an even ring, a wider card to keep the front one large.
+
+    Measured across the ring at these numbers — 339, 313, 244, 153 — the step
+    to the neighbour is 1.08× and to the next 1.39×, against 1.11× and 1.51×
+    before. Still clearly a cylinder; no longer one hero and a row of extras.
   */
-  const CARD_W = 176;
+  const CARD_W = 232;
   /* The mount, per side. It is part of the card's outer size, so the
      seating radius and the vertical centring below both have to know about it
      — a mount added to the markup alone leaves every card hanging a few pixels
      low on the turntable. */
-  const MOUNT = 8;
+  const MOUNT = 5;
   const CARD_H = Math.round((CARD_W - MOUNT * 2) * (4 / 3) + MOUNT * 2);
   const radius = Math.round(CARD_W / 2 / Math.tan(Math.PI / count));
 
@@ -68,7 +74,10 @@ export function DesignCarousel3D({
     `LIFT` is the hover translate plus the shadow beneath it, which are outside
     the projected box and would otherwise be the thing that gets cut.
   */
-  const PERSPECTIVE = 1100;
+  const PERSPECTIVE = 2200;
+  /* Shared by the ring and by each card's focus falloff — they have to be the
+     same length or the lit card drifts away from the front over time. */
+  const SPIN_SECONDS = 64;
   const LIFT = 34;
   const frontScale = PERSPECTIVE / (PERSPECTIVE - radius);
   const stageHeight = Math.ceil(CARD_H * frontScale) + LIFT * 2;
@@ -81,11 +90,12 @@ export function DesignCarousel3D({
       onMouseLeave={() => setPaused(false)}
     >
       <div
-        className="relative h-full w-full motion-safe:animate-[cylinder-spin_64s_linear_infinite] motion-reduce:rotate-y-0"
+        className="relative h-full w-full motion-safe:animate-[cylinder-spin_var(--spin)_linear_infinite] motion-reduce:rotate-y-0"
         style={{
           transformStyle: "preserve-3d",
           animationPlayState: paused ? "paused" : "running",
-        }}
+          "--spin": `${SPIN_SECONDS}s`,
+        } as CSSProperties}
       >
         {templates.map((t, i) => (
           <div
@@ -129,18 +139,30 @@ export function DesignCarousel3D({
                 the marketing page it is undefined, and the rule would simply
                 not draw.
               */}
-              <div className="relative">
+              {/*
+                The size falloff rides here, on the wrapper, so it never fights
+                the mount's hover translate below it — and on the same clock and
+                the same delay as the veil, so a card is at its largest exactly
+                when it is at its brightest.
+              */}
+              <div
+                style={{
+                  animationDelay: `${(i / count - 1) * SPIN_SECONDS}s`,
+                  animationPlayState: paused ? "paused" : "running",
+                }}
+                className="relative motion-safe:animate-[card-shrink_var(--spin)_linear_infinite]"
+              >
                 {/* A pool of warmth under the card, lit only on approach. */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gold/25 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                  className="pointer-events-none absolute -inset-4 rounded-[2.4rem] bg-gold/25 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
                 />
 
                 <div
                   style={{ padding: MOUNT }}
-                  className="relative rounded-[1.45rem] bg-aubergine shadow-[0_0_0_1px_rgba(201,162,75,0.4),0_28px_50px_-24px_rgba(42,21,32,0.75)] transition-[transform,box-shadow] duration-500 ease-out group-hover:-translate-y-2.5 group-hover:shadow-[0_0_0_1px_rgba(201,162,75,0.8),0_0_28px_0_rgba(201,162,75,0.4),0_34px_60px_-24px_rgba(42,21,32,0.85)]"
+                  className="relative rounded-[1.75rem] bg-aubergine shadow-[0_0_0_1px_rgba(201,162,75,0.4),0_10px_20px_-12px_rgba(42,21,32,0.45),0_40px_80px_-30px_rgba(42,21,32,0.6)] transition-[translate,box-shadow] duration-500 ease-out group-hover:-translate-y-2.5 group-hover:shadow-[0_0_0_1px_rgba(201,162,75,0.8),0_0_30px_0_rgba(201,162,75,0.35),0_14px_26px_-12px_rgba(42,21,32,0.5),0_48px_92px_-30px_rgba(42,21,32,0.7)]"
                 >
-                  <div className="overflow-hidden rounded-[0.95rem] ring-1 ring-gold/35">
+                  <div className="@container relative overflow-hidden rounded-[1.45rem] ring-1 ring-gold/55">
                     <TemplatePoster
                       template={t}
                       photo={photo}
@@ -149,6 +171,32 @@ export function DesignCarousel3D({
                       priority={i < 4}
                       className="aspect-[3/4]"
                     />
+
+                    {/*
+                      The card's own foot: the design's name, and the door in.
+
+                      It lives inside the frame rather than under the card. Laid
+                      out below the card it sits in the rotated seat, and the
+                      same perspective that magnifies the front face by ~1.9×
+                      pushes it clean out of the stage and onto the caption
+                      beneath. Anything that must stay on the card has to be
+                      drawn on the card.
+
+                      Sized in `cqw` against the frame, like the poster above
+                      it, so the whole composition holds together at whatever
+                      size the ring is built at — and a `span`, not a button,
+                      because the entire card is already one link and an
+                      interactive element inside a link is a broken control.
+                    */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-aubergine via-aubergine/85 to-transparent px-[6cqw] pb-[5cqw] pt-[14cqw] text-center">
+                      <p className="truncate text-[3.4cqw] uppercase tracking-[0.26em] text-gold">
+                        {t.name}
+                      </p>
+                      <span className="mt-[3cqw] inline-flex items-center gap-[2cqw] rounded-full border border-linen/45 px-[5cqw] py-[2.2cqw] text-[3.7cqw] uppercase tracking-[0.16em] text-linen transition-colors duration-500 group-hover:border-gold group-hover:text-gold">
+                        View invitation
+                        <span aria-hidden="true">&rarr;</span>
+                      </span>
+                    </div>
                   </div>
 
                   {/*
@@ -159,26 +207,31 @@ export function DesignCarousel3D({
                   */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 rounded-[1.45rem] bg-gradient-to-tr from-transparent via-white/12 to-transparent"
+                    className="pointer-events-none absolute inset-0 rounded-[1.75rem] bg-gradient-to-tr from-transparent via-white/12 to-transparent"
                   />
                   {/* Light from above, so the top edge of the mount catches. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 top-0 h-1/3 rounded-t-[1.45rem] bg-gradient-to-b from-white/14 to-transparent"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-1/3 rounded-t-[1.75rem] bg-gradient-to-b from-white/14 to-transparent"
                   />
 
                   {/*
-                    The name plate sits ON the card, not under it.
+                    Focus falloff. Lit at the front, veiled as it turns away.
 
-                    Below the card it was laid out inside the rotated seat, so
-                    the same perspective that magnifies the front face by ~1.9×
-                    pushed the label right out of the stage and onto the caption
-                    beneath it. Anything that has to stay within the card has to
-                    be inside the card.
+                    Driven by `animation-delay`, not by state: the ring turns at
+                    a constant rate, so the moment this card faces front is
+                    arithmetic. Sharing `--spin` with the ring is what keeps the
+                    two from drifting apart over a long session.
                   */}
-                  <span className="pointer-events-none absolute inset-x-3 bottom-3 mx-auto w-fit max-w-[calc(100%-1.5rem)] truncate rounded-full bg-aubergine/85 px-3 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-linen opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-                    {t.name}
-                  </span>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      animationDelay: `${(i / count - 1) * SPIN_SECONDS}s`,
+                      animationPlayState: paused ? "paused" : "running",
+                    }}
+                    className="pointer-events-none absolute inset-0 rounded-[1.75rem] bg-aubergine opacity-0 motion-safe:animate-[card-recede_var(--spin)_linear_infinite]"
+                  />
+
                 </div>
               </div>
 

@@ -201,23 +201,59 @@ export type CollectionId =
  */
 export type DesignTierId = "signature" | "royal-tier" | "luxe";
 
-export const DESIGN_TIERS: Record<DesignTierId, { name: string; line: string; order: number }> = {
+export const DESIGN_TIERS: Record<
+  DesignTierId,
+  { name: string; line: string; order: number; listPrice: number; price: number }
+> = {
   signature: {
     name: "Signature",
     order: 1,
+    listPrice: 9999,
+    price: 4999,
     line: "Light grounds, quiet type, one idea per page. The day does the talking.",
   },
   "royal-tier": {
     name: "Royal",
     order: 2,
+    listPrice: 23999,
+    price: 11999,
     line: "Deep colour and real metal, drawn from the textiles and thresholds these ceremonies already live in.",
   },
   luxe: {
     name: "Luxe",
     order: 3,
+    listPrice: 49999,
+    price: 24999,
     line: "The most made of them — dark grounds, cinematic openings, ornament carried edge to edge.",
   },
 };
+
+/**
+ * Pricing, per tier rather than per design.
+ *
+ * Nineteen independently editable prices is nineteen chances to contradict the
+ * price list. These live in code today; when the operator console can edit
+ * them they move to the tenant-independent settings table and these become the
+ * seed values — the shape stays the same either way.
+ *
+ * `listPrice` is what is struck through, `price` is what is charged. The
+ * percentage is never stored: it is derived from the two, so a badge cannot
+ * claim a discount the numbers do not show.
+ */
+export function priceOf(t: WeddingTemplate): number {
+  return DESIGN_TIERS[t.tier].price;
+}
+
+export function listPriceOf(t: WeddingTemplate): number {
+  return DESIGN_TIERS[t.tier].listPrice;
+}
+
+/** Whole-percent discount, derived. Returns 0 when there is nothing to claim,
+ *  so the badge disappears rather than reading "0% off". */
+export function discountPct(listPrice: number, price: number): number {
+  if (!listPrice || price >= listPrice) return 0;
+  return Math.round((1 - price / listPrice) * 100);
+}
 
 /** The tiers in ladder order, for anything that lists all three. */
 export const DESIGN_TIER_ORDER: DesignTierId[] = ["signature", "royal-tier", "luxe"];

@@ -397,6 +397,57 @@
   to   { transform: rotateY(-360deg); }
 }
 
+/*
+  The focus falloff on the turntable: lit at the front, veiled at the back.
+
+  The ring rotates linearly, so a card's facing angle is a known function of
+  time — which means the dimming can be a second animation of the same length,
+  started at the right offset, rather than anything measured per frame. Card i
+  sits `i · 360/count` degrees round the ring and the ring turns -360° over the
+  cycle, so it faces front at `t = (i / count) · duration`; a negative delay of
+  `((i / count) - 1) · duration` puts this keyframe's 0% exactly there.
+
+  Opacity only. A blur or a brightness filter on nineteen large layers turning
+  at 60fps is a different cost entirely, and a veil in the card's own aubergine
+  reads as depth just as well.
+*/
+/*
+  The size falloff, on top of the perspective.
+
+  The cylinder already shrinks a card as it turns away, but not evenly: at
+  these numbers the immediate neighbour projects 297px against the front card's
+  339px — only 1.14× — and then drops to 195px at the next seat. Nearly the
+  same size, then a cliff.
+
+  This grades it. The stops are placed on the seats rather than at round
+  numbers: one seat is 360/19 = 18.9° of rotation, which is 5.26% of a cycle,
+  so 5.3 / 10.5 / 15.8% are where the first, second and third neighbours
+  actually sit. Scaling there is what makes the ladder read as a ladder.
+
+  `scale`, not `transform: scale()` — the mount carries its own hover
+  `translate`, and the individual transform properties compose instead of
+  overwriting one another.
+*/
+@keyframes card-shrink {
+  0%    { scale: 1; }
+  5.3%  { scale: 0.89; }
+  10.5% { scale: 0.85; }
+  15.8% { scale: 0.82; }
+  50%   { scale: 0.75; }
+  84.2% { scale: 0.82; }
+  89.5% { scale: 0.85; }
+  94.7% { scale: 0.89; }
+  100%  { scale: 1; }
+}
+
+@keyframes card-recede {
+  0%   { opacity: 0; }
+  25%  { opacity: 0.32; }
+  50%  { opacity: 0.58; }
+  75%  { opacity: 0.32; }
+  100% { opacity: 0; }
+}
+
 @layer utilities {
   /*
     The arch.

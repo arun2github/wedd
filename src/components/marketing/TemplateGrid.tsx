@@ -4,9 +4,11 @@ import { useMemo, useState } from "react";
 import {
   DESIGN_TIERS,
   DESIGN_TIER_ORDER,
+  discountPct,
   type DesignTierId,
   type WeddingTemplate,
 } from "@/lib/templates";
+import { inr } from "@/lib/pricing";
 import { TemplateCard } from "./TemplateCard";
 import { Reveal } from "./Reveal";
 
@@ -164,6 +166,20 @@ export function TemplateGrid({
                 <h3 className="font-display text-[clamp(1.7rem,3.2vw,2.4rem)] font-light tracking-[-0.02em]">
                   {band.name}
                 </h3>
+                {/* The band heading carries the price because the ladder is a
+                    price ladder — reading it design by design makes you do the
+                    arithmetic the bands already did. */}
+                <p className="flex items-baseline gap-2 text-[0.65rem] uppercase tracking-[0.16em]">
+                  <s className="text-soft/80">{inr(band.listPrice)}</s>
+                  <span className="rounded-full bg-peach px-3 py-1 text-wine">
+                    {inr(band.price)} one-time
+                  </span>
+                  {discountPct(band.listPrice, band.price) > 0 && (
+                    <span className="rounded-full bg-wine px-2.5 py-1 text-linen">
+                      {discountPct(band.listPrice, band.price)}% off
+                    </span>
+                  )}
+                </p>
                 <p className="max-w-md text-sm leading-relaxed text-soft">{band.line}</p>
               </Reveal>
 

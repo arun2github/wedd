@@ -2,9 +2,18 @@ import { BRAND } from "@/lib/brand";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { TEMPLATES, getTemplate, sectionsOf, COLLECTIONS, DESIGN_TIERS } from "@/lib/templates";
+import {
+  TEMPLATES,
+  getTemplate,
+  sectionsOf,
+  COLLECTIONS,
+  DESIGN_TIERS,
+  discountPct,
+  listPriceOf,
+  priceOf,
+} from "@/lib/templates";
 import { colorwaysOf } from "@/lib/colorways";
-import { TIERS, inr } from "@/lib/pricing";
+import { inr } from "@/lib/pricing";
 import { demoWeddingContent } from "@/data/wedding-data";
 import { SiteChrome } from "@/components/marketing/SiteChrome";
 import { TemplatePoster } from "@/components/marketing/TemplatePoster";
@@ -54,7 +63,9 @@ export default async function TemplateDetailPage({ params, searchParams }: PageP
   const t = getTemplate(id, colorwayId);
   const sections = sectionsOf(t);
   const { brideName, groomName, heroPhoto } = demoWeddingContent.couple;
-  const entry = TIERS[0];
+  const price = priceOf(t);
+  const listPrice = listPriceOf(t);
+  const off = discountPct(listPrice, price);
 
   return (
     <div className="flex min-h-dvh flex-1 flex-col bg-linen font-sans text-ink [--body-face:var(--font-jost)] [--display-face:var(--font-cormorant)]">
@@ -93,6 +104,21 @@ export default async function TemplateDetailPage({ params, searchParams }: PageP
             </h1>
             <p className="mt-5 max-w-md text-lg leading-relaxed text-soft">{t.blurb}</p>
 
+            {/* The price, once, at full size — the buy button repeats only the
+                payable number, never the struck one. */}
+            <div className="mt-7 flex flex-wrap items-baseline gap-x-3 gap-y-2">
+              <s className="text-lg text-soft/80">{inr(listPrice)}</s>
+              <span className="font-display text-4xl font-light">{inr(price)}</span>
+              {off > 0 && (
+                <span className="rounded-full bg-wine px-3 py-1 text-[0.62rem] uppercase tracking-[0.18em] text-linen">
+                  {off}% off
+                </span>
+              )}
+              <span className="text-[0.62rem] uppercase tracking-[0.2em] text-soft">
+                One-time
+              </span>
+            </div>
+
             {/* The two doors, and no third. */}
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
@@ -105,7 +131,7 @@ export default async function TemplateDetailPage({ params, searchParams }: PageP
                 href={`/sign-in?next=${encodeURIComponent(`/templates/${t.id}`)}`}
                 className="rounded-full bg-sage px-8 py-3.5 text-sm font-medium tracking-wide text-linen transition-colors hover:bg-forest focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage"
               >
-                Buy now — {inr(entry.price)}
+                Buy now — {inr(price)}
               </Link>
             </div>
             <p className="mt-4 text-sm text-soft">
