@@ -240,11 +240,21 @@ export interface WeddingTemplate {
   featured?: boolean;
   /** Overrides `DEFAULT_SECTIONS` when an archetype ships something different. */
   sections?: readonly string[];
+  /**
+   * A composed design: which hero, which gallery, which order.
+   *
+   * When present this wins over `archetype` and the page is assembled by
+   * `ComposedInvitation`. Designs still on a hardcoded architecture leave it
+   * unset — `scroll` in particular, whose curtain and envelope film cannot be
+   * lifted into a slot without being rebuilt.
+   */
+  recipe?: Recipe;
   fonts: { display: DisplayFont; body: BodyFont };
   palette: TemplatePalette;
 }
 
 import { colorwaysOf } from "@/lib/colorways";
+import type { Recipe } from "@/lib/recipe";
 
 export const DEFAULT_TEMPLATE_ID = "royal-ivory";
 
@@ -315,6 +325,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["timeless", "bold"],
     weddingTypes: ["indian", "large", "multi-day"],
     fonts: { display: "instrument", body: "tenor" },
+    recipe: { hero: "typographic", events: "schedule", gallery: "polaroid", nav: "centred", motion: "slow-fade", order: ["countdown","story","events","couple","gallery","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#fbf8f2", "surface-sunk": "#f2ece0",
       ink: "#241e1b", "ink-soft": "#635a52",
@@ -341,6 +352,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["timeless", "elegant"],
     weddingTypes: ["destination", "intimate"],
     fonts: { display: "marcellus", body: "spectral" },
+    recipe: { hero: "monogram", events: "schedule", gallery: "horizontal", nav: "centred", motion: "slow-fade", order: ["countdown","events","story","couple","gallery","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#fafaf7", "surface-sunk": "#efefe9",
       ink: "#14161a", "ink-soft": "#5a5f66",
@@ -389,6 +401,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["bold", "romantic"],
     weddingTypes: ["indian", "large"],
     fonts: { display: "gilda", body: "inter" },
+    recipe: { hero: "split", events: "timeline", gallery: "polaroid", nav: "monogram", motion: "spring", order: ["events","countdown","couple","story","gallery","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#fff6f0", "surface-sunk": "#fbe7dc",
       ink: "#2a1a16", "ink-soft": "#6b544c",
@@ -420,6 +433,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     weddingTypes: ["indian", "large", "multi-day"],
     featured: true,
     fonts: { display: "gilda", body: "jost" },
+    recipe: { hero: "monogram", events: "timeline", gallery: "masonry", nav: "monogram", motion: "mask-reveal", order: ["countdown","events","couple","story","gallery","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#0e3b2e", "surface-sunk": "#0a2c22",
       ink: "#f1eada", "ink-soft": "#a9b8ac",
@@ -468,6 +482,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["timeless", "bold"],
     weddingTypes: ["indian", "destination"],
     fonts: { display: "cormorant", body: "tenor" },
+    recipe: { hero: "split", events: "schedule", gallery: "polaroid", nav: "centred", motion: "slow-fade", order: ["countdown","couple","events","story","venue","gallery","film","families","rsvp","closing"] },
     palette: {
       surface: "#f6efe3", "surface-sunk": "#ebdfcb",
       ink: "#2b231a", "ink-soft": "#6a5c4a",
@@ -494,6 +509,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["timeless", "romantic"],
     weddingTypes: ["intimate", "destination"],
     fonts: { display: "playfair", body: "spectral" },
+    recipe: { hero: "typographic", events: "schedule", gallery: "masonry", nav: "centred", motion: "slow-fade", order: ["countdown","story","couple","gallery","events","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#f4f0ea", "surface-sunk": "#e7e1d8",
       ink: "#241e18", "ink-soft": "#6b6055",
@@ -519,6 +535,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     weddingTypes: ["destination", "intimate"],
     featured: true,
     fonts: { display: "fraunces", body: "spectral" },
+    recipe: { hero: "split", events: "cards", gallery: "horizontal", nav: "overlay", motion: "parallax", order: ["countdown","events","gallery","story","couple","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#f3f6f0", "surface-sunk": "#e4ebe0",
       ink: "#1a211c", "ink-soft": "#556056",
@@ -597,6 +614,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["contemporary", "bold"],
     weddingTypes: ["intimate", "destination"],
     fonts: { display: "bodoni", body: "tenor" },
+    recipe: { hero: "typographic", events: "timeline", gallery: "horizontal", nav: "monogram", motion: "mask-reveal", order: ["gallery","countdown","events","story","couple","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#121212", "surface-sunk": "#1a1a1a",
       ink: "#efebe3", "ink-soft": "#a8a298",
@@ -622,6 +640,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     weddingTypes: ["large", "multi-day"],
     featured: true,
     fonts: { display: "gilda", body: "spectral" },
+    recipe: { hero: "monogram", events: "cards", gallery: "masonry", nav: "overlay", motion: "parallax", order: ["countdown","events","gallery","couple","story","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#15101f", "surface-sunk": "#1b1326",
       ink: "#ede6f2", "ink-soft": "#a99bb3",
@@ -645,6 +664,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["timeless", "elegant"],
     weddingTypes: ["intimate", "destination"],
     fonts: { display: "marcellus", body: "inter" },
+    recipe: { hero: "split", events: "timeline", gallery: "masonry", nav: "overlay", motion: "mask-reveal", order: ["countdown","couple","events","gallery","story","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#f8f5ef", "surface-sunk": "#efeae1",
       ink: "#23201b", "ink-soft": "#665f55",
@@ -669,6 +689,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     moods: ["bold", "playful"],
     weddingTypes: ["indian", "multi-day"],
     fonts: { display: "yeseva", body: "spectral" },
+    recipe: { hero: "split", events: "cards", gallery: "masonry", nav: "centred", motion: "spring", order: ["countdown","events","story","gallery","couple","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#fffaf0", "surface-sunk": "#fbefd8",
       ink: "#241e14", "ink-soft": "#665941",
@@ -695,6 +716,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     weddingTypes: ["destination", "intimate"],
     featured: true,
     fonts: { display: "instrument", body: "jost" },
+    recipe: { hero: "monogram", events: "cards", gallery: "horizontal", nav: "overlay", motion: "parallax", order: ["gallery","events","countdown","story","couple","venue","film","families","rsvp","closing"] },
     palette: {
       surface: "#1a1a1a", "surface-sunk": "#2c2c2c",
       ink: "#fafaf8", "ink-soft": "#a8a49e",

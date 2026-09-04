@@ -7,6 +7,7 @@ import { AlbumInvitation } from "./AlbumInvitation";
 import { PatrikaInvitation } from "./PatrikaInvitation";
 import { PanelInvitation } from "./PanelInvitation";
 import { CardInvitation } from "./CardInvitation";
+import { ComposedInvitation } from "./ComposedInvitation";
 import { IntroProvider } from "@/components/providers/IntroProvider";
 import type { WeddingData } from "@/types/wedding";
 
@@ -55,6 +56,9 @@ export function WeddingSite({
   skipIntro?: boolean;
 }) {
   const template = getTemplate(templateId, colorwayId);
+  /* A recipe wins over an architecture: composed designs assemble themselves
+     from variants, and only the ones still on a hardcoded tree fall through. */
+  const composed = template.recipe;
   const { Component: Archetype, hasIntro } = ARCHETYPES[template.archetype];
 
   return (
@@ -62,8 +66,12 @@ export function WeddingSite({
       {/* The intro lives here rather than in the root layout: it belongs to a
           wedding site, not to the app. The storefront and the console share
           neither its curtain nor its scroll lock. */}
-      <IntroProvider initialPhase={skipIntro || !hasIntro ? "done" : "loading"}>
-        <Archetype data={data} />
+      <IntroProvider initialPhase={skipIntro || composed || !hasIntro ? "done" : "loading"}>
+        {composed ? (
+          <ComposedInvitation data={data} recipe={composed} />
+        ) : (
+          <Archetype data={data} />
+        )}
       </IntroProvider>
     </TemplateTheme>
   );
