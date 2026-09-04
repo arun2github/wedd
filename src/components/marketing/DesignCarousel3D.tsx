@@ -55,10 +55,28 @@ export function DesignCarousel3D({
   const CARD_H = Math.round((CARD_W - MOUNT * 2) * (4 / 3) + MOUNT * 2);
   const radius = Math.round(CARD_W / 2 / Math.tan(Math.PI / count));
 
+  /*
+    The stage is sized from the geometry, not guessed in `rem`.
+
+    The front of the ring sits at `translateZ(radius)`, so the browser scales it
+    by `P / (P - radius)` — 1.92× at these numbers. A hand-picked stage height
+    is a number that happens to clear that today and silently crops the cards
+    the moment anyone changes the card width, the count or the perspective,
+    because the section clips what overflows. Deriving it means the stage
+    cannot be too short.
+
+    `LIFT` is the hover translate plus the shadow beneath it, which are outside
+    the projected box and would otherwise be the thing that gets cut.
+  */
+  const PERSPECTIVE = 1100;
+  const LIFT = 34;
+  const frontScale = PERSPECTIVE / (PERSPECTIVE - radius);
+  const stageHeight = Math.ceil(CARD_H * frontScale) + LIFT * 2;
+
   return (
     <div
-      className="relative flex h-[30rem] items-center justify-center sm:h-[34rem]"
-      style={{ perspective: "1100px" }}
+      className="relative flex items-center justify-center"
+      style={{ height: stageHeight, perspective: `${PERSPECTIVE}px` }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
