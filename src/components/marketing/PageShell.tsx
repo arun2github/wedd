@@ -40,7 +40,7 @@ export function PageShell({
         branch set the column headings in gold — 1.9:1 on this ground, which is
         no heading at all. They are wine now, at 10.7:1.
       */}
-      <footer className="bg-peach text-ink">
+      <footer className="bg-peach-soft text-ink">
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <p className="font-mark text-3xl leading-none text-wine">{BRAND}</p>
@@ -72,7 +72,7 @@ export function PageShell({
             </nav>
           ))}
         </div>
-        <div className="border-t border-peach-deep px-5 py-6 text-center text-xs text-soft sm:px-8">
+        <div className="border-t border-peach px-5 py-6 text-center text-xs text-soft sm:px-8">
           © {new Date().getFullYear()} {BRAND_DOMAIN}
         </div>
       </footer>

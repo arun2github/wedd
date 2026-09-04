@@ -163,6 +163,12 @@
      text because nothing should set type in it. */
   --color-peach: #ffdcc9;
   --color-peach-deep: #f2b394;
+  /* A lighter peach, for large fields of it. The footer is the whole width of
+     the page, and `peach` at that size reads heavy rather than warm — the
+     tint that works as a pill is not the tint that works as a ground. `soft`
+     measures 5.63:1 here against 4.91 on the full-strength peach, so the
+     lighter one is also the more legible. */
+  --color-peach-soft: #ffefe6;
 
   /* The purple family, used only by the replies band on the marketing home
      page. A sibling of `wine` rather than a new direction — same depth, same

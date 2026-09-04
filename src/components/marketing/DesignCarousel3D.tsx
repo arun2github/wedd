@@ -89,16 +89,16 @@ export function DesignCarousel3D({
               {/*
                 The card is a framed print, not a bare image.
 
-                The mount is the site's own metal: gold into peach into wine,
-                on the diagonal, with an aubergine hairline holding it off the
-                artwork. Those four are the whole marketing palette, so the
-                frame belongs to the site while the poster inside stays the
-                template's — untouched, because the frame may flatter it but
-                must never stand in for it.
+                An aubergine mount — the same ground the dark band further
+                down this page stands on — with a gold hairline holding it off
+                the artwork. The poster inside stays the template's own, and is
+                untouched: the frame may flatter it but must never stand in
+                for it.
 
-                Diagonal on purpose. The cylinder turns, so a vertical ramp
-                would look identical on every card at every angle; a diagonal
-                one catches differently as each card comes round.
+                Dark, not metal. Nineteen palettes come round on this ring, and
+                a light frame competes with every one of them; a dark one reads
+                as a mount and lets each poster be the brightest thing in its
+                own card.
 
                 The lift is box-shadow, not the animated `GlowBorder` the
                 button uses. Nineteen cards are on screen at once here, and
@@ -115,14 +115,14 @@ export function DesignCarousel3D({
                 {/* A pool of warmth under the card, lit only on approach. */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gold/30 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                  className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gold/25 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
                 />
 
                 <div
                   style={{ padding: MOUNT }}
-                  className="relative rounded-[1.45rem] bg-gradient-to-br from-gold via-peach to-wine shadow-[0_0_0_1px_rgba(201,162,75,0.45),0_28px_50px_-24px_rgba(42,21,32,0.75)] transition-[transform,box-shadow] duration-500 ease-out group-hover:-translate-y-2.5 group-hover:shadow-[0_0_0_1px_rgba(201,162,75,0.8),0_0_28px_0_rgba(201,162,75,0.4),0_34px_60px_-24px_rgba(42,21,32,0.85)]"
+                  className="relative rounded-[1.45rem] bg-aubergine shadow-[0_0_0_1px_rgba(201,162,75,0.4),0_28px_50px_-24px_rgba(42,21,32,0.75)] transition-[transform,box-shadow] duration-500 ease-out group-hover:-translate-y-2.5 group-hover:shadow-[0_0_0_1px_rgba(201,162,75,0.8),0_0_28px_0_rgba(201,162,75,0.4),0_34px_60px_-24px_rgba(42,21,32,0.85)]"
                 >
-                  <div className="overflow-hidden rounded-[0.95rem] ring-1 ring-aubergine/45">
+                  <div className="overflow-hidden rounded-[0.95rem] ring-1 ring-gold/35">
                     <TemplatePoster
                       template={t}
                       photo={photo}
@@ -141,19 +141,29 @@ export function DesignCarousel3D({
                   */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 rounded-[1.45rem] bg-gradient-to-tr from-transparent via-white/35 to-transparent"
+                    className="pointer-events-none absolute inset-0 rounded-[1.45rem] bg-gradient-to-tr from-transparent via-white/12 to-transparent"
                   />
                   {/* Light from above, so the top edge of the mount catches. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 top-0 h-1/3 rounded-t-[1.45rem] bg-gradient-to-b from-white/28 to-transparent"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-1/3 rounded-t-[1.45rem] bg-gradient-to-b from-white/14 to-transparent"
                   />
+
+                  {/*
+                    The name plate sits ON the card, not under it.
+
+                    Below the card it was laid out inside the rotated seat, so
+                    the same perspective that magnifies the front face by ~1.9×
+                    pushed the label right out of the stage and onto the caption
+                    beneath it. Anything that has to stay within the card has to
+                    be inside the card.
+                  */}
+                  <span className="pointer-events-none absolute inset-x-3 bottom-3 mx-auto w-fit max-w-[calc(100%-1.5rem)] truncate rounded-full bg-aubergine/85 px-3 py-1 text-[0.6rem] uppercase tracking-[0.18em] text-linen opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+                    {t.name}
+                  </span>
                 </div>
               </div>
 
-              <p className="mx-auto mt-3.5 w-fit rounded-full bg-peach px-3 py-1 text-[0.66rem] uppercase tracking-[0.2em] text-wine opacity-0 shadow-sm transition-opacity duration-300 group-hover:opacity-100">
-                {t.name}
-              </p>
             </Link>
           </div>
         ))}
