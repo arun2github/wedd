@@ -1,3 +1,4 @@
+import { pageTitle } from "@/lib/brand";
 import type { Metadata } from "next";
 import { listTemplates } from "@/lib/templates";
 import { demoWeddingContent } from "@/data/wedding-data";
@@ -6,9 +7,9 @@ import { TemplateGrid } from "@/components/marketing/TemplateGrid";
 import { Reveal } from "@/components/marketing/Reveal";
 
 export const metadata: Metadata = {
-  title: "Wedding website designs — Sehra",
+  title: pageTitle("Wedding website designs"),
   description:
-    "Twelve designed wedding websites for Hindu, Christian and Muslim weddings. See any of them running with real content before you choose.",
+    "Designed wedding websites for Hindu, Christian and Muslim weddings. See any of them running with real content before you choose.",
 };
 
 /** The catalogue, and the only place it appears. */
@@ -22,7 +23,7 @@ export default function DesignsPage() {
         <Reveal className="max-w-3xl">
           <p className="text-[0.68rem] uppercase tracking-[0.32em] text-soft">The collection</p>
           <h1 className="mt-5 font-display text-[clamp(3rem,7vw,5.6rem)] font-light leading-[0.98] tracking-[-0.025em]">
-            Twelve designs.
+            Designs for every tradition.
             <br />
             One for your wedding.
           </h1>

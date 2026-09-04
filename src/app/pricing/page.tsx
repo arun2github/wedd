@@ -1,3 +1,4 @@
+import { pageTitle } from "@/lib/brand";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { TIERS, ADD_ONS, inr } from "@/lib/pricing";
@@ -5,7 +6,7 @@ import { PageShell } from "@/components/marketing/PageShell";
 import { Reveal } from "@/components/marketing/Reveal";
 
 export const metadata: Metadata = {
-  title: "Pricing — Sehra",
+  title: pageTitle("Pricing"),
   description:
     "Pay once, when you publish. Build the whole site and share a private link for free. No subscription.",
 };

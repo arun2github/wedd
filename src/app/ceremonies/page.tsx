@@ -1,12 +1,13 @@
-import Link from "next/link";
+import { pageTitle } from "@/lib/brand";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { demoWeddingContent } from "@/data/wedding-data";
+import { NeonGlowButton } from "@/components/marketing/NeonGlowButton";
 import { PageShell } from "@/components/marketing/PageShell";
 import { Reveal } from "@/components/marketing/Reveal";
 
 export const metadata: Metadata = {
-  title: "Every ceremony — Sehra",
+  title: pageTitle("Every ceremony"),
   description:
     "Haldi, mehendi, sangeet, the wedding, the reception. Every ceremony gets its own card, colour, venue and directions.",
 };
@@ -91,12 +92,14 @@ export default function CeremoniesPage() {
               Nothing here is limited to the six above. Add as many as you are
               holding, in the order they happen, and each one gets its own card.
             </p>
-            <Link
-              href="/designs"
-              className="mt-9 inline-block rounded-full bg-aubergine px-8 py-3.5 text-sm font-medium tracking-wide text-linen transition-colors hover:bg-wine"
-            >
+            {/*
+              This was `bg-aubergine text-linen` — on a page whose ground is
+              aubergine, which made it a dark pill on a dark field with only
+              the text visible. It is lit now instead of filled.
+            */}
+            <NeonGlowButton href="/designs" className="mt-9">
               See the designs
-            </Link>
+            </NeonGlowButton>
           </Reveal>
         </div>
       </section>

@@ -29,7 +29,7 @@ export const TIERS: Tier[] = [
     price: 4999,
     pitch: "Everything a guest needs, on your own address.",
     features: [
-      "Any one of the twelve designs",
+      "Any design in the collection",
       "All twelve sections, unlimited ceremonies",
       "RSVP up to 200 responses, exportable",
       "2 GB for photos and video",

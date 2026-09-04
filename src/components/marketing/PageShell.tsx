@@ -1,3 +1,4 @@
+import { BRAND, BRAND_DOMAIN } from "@/lib/brand";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { SiteChrome } from "./SiteChrome";
@@ -27,11 +28,23 @@ export function PageShell({
       <SiteChrome />
       <main className="flex-1">{children}</main>
 
-      <footer className={dark ? "border-t border-linen/12" : "border-t border-ink/10"}>
+      {/*
+        The footer is peach on every page, whatever ground the page opened on.
+
+        It is the one band that is the same everywhere, so giving it a colour
+        of its own is what makes it read as the site signing off rather than as
+        the page running out. On a linen page that is a warm step down; on an
+        aubergine one it is a hard, deliberate cut.
+
+        Nothing here branches on `tone` any more. It used to, and the dark
+        branch set the column headings in gold — 1.9:1 on this ground, which is
+        no heading at all. They are wine now, at 10.7:1.
+      */}
+      <footer className="bg-peach text-ink">
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <p className="font-script text-3xl leading-none">Sehra</p>
-            <p className={`mt-3 max-w-xs text-sm leading-relaxed ${dark ? "text-linen/65" : "text-soft"}`}>
+            <p className="font-mark text-3xl leading-none text-wine">{BRAND}</p>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-soft">
               Wedding websites, designed — and built to hold every day of an
               Indian wedding.
             </p>
@@ -41,7 +54,7 @@ export function PageShell({
             { h: "Get started", links: [["How it works", "/how-it-works"], ["Pricing", "/pricing"], ["Sign in", "/sign-in"]] },
           ].map((col) => (
             <nav key={col.h}>
-              <p className={`text-[0.62rem] uppercase tracking-[0.26em] ${dark ? "text-gold" : "text-soft"}`}>
+              <p className="text-[0.62rem] uppercase tracking-[0.26em] text-wine">
                 {col.h}
               </p>
               <ul className="mt-4 flex flex-col gap-2.5 text-sm">
@@ -49,7 +62,7 @@ export function PageShell({
                   <li key={label}>
                     <Link
                       href={href}
-                      className={`transition-colors ${dark ? "text-linen/70 hover:text-linen" : "text-soft hover:text-ink"}`}
+                      className="text-soft transition-colors hover:text-ink"
                     >
                       {label}
                     </Link>
@@ -59,8 +72,8 @@ export function PageShell({
             </nav>
           ))}
         </div>
-        <div className={`px-5 py-6 text-center text-xs sm:px-8 ${dark ? "text-linen/50" : "text-soft"}`}>
-          © {new Date().getFullYear()} Sehra
+        <div className="border-t border-peach-deep px-5 py-6 text-center text-xs text-soft sm:px-8">
+          © {new Date().getFullYear()} {BRAND_DOMAIN}
         </div>
       </footer>
     </div>

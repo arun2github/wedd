@@ -1,3 +1,4 @@
+import { BRAND, pageTitle } from "@/lib/brand";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -8,7 +9,7 @@ import { TemplatePoster } from "@/components/marketing/TemplatePoster";
 import { SignInForm } from "./SignInForm";
 
 export const metadata: Metadata = {
-  title: "Sign in — Sehra",
+  title: pageTitle("Sign in"),
   description: "Sign in, or create an account and start building your wedding website.",
 };
 
@@ -37,7 +38,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
   return (
     <div className="grid min-h-dvh bg-linen font-sans text-ink [--body-face:var(--font-jost)] [--display-face:var(--font-cormorant)] lg:grid-cols-2">
       <div className="flex flex-col justify-between px-6 py-10 sm:px-12 lg:py-14">
-        <Link href="/" className="font-script text-3xl leading-none">Sehra</Link>
+        <Link href="/" className="font-mark text-3xl leading-none">{BRAND}</Link>
 
         <div className="mx-auto w-full max-w-sm py-14">
           <h1 className="font-display text-[clamp(2.4rem,5vw,3.4rem)] font-light leading-[1.05] tracking-[-0.02em]">
@@ -76,7 +77,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
             className="rounded-xl aspect-[3/4] shadow-2xl"
           />
           <p className="mt-6 text-center text-sm text-linen/75">
-            {showcase.name} — one of twelve designs
+            {showcase.name} — one of the designs
           </p>
         </div>
         <span

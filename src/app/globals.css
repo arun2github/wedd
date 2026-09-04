@@ -4,6 +4,29 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+  The wordmark face.
+
+  Loaded by hand rather than through `next/font/local`, and deliberately:
+  `next/font/local` resolves at module scope and throws at build time if the
+  file is absent. Bulgatti is a commercial font that is not in this repo, so
+  that would mean the whole site fails to build until someone drops a file in.
+  A plain `@font-face` pointing at a path that may not exist degrades to the
+  fallback silently, which is the correct failure for a typeface.
+
+  WOFF2 only. It is the compressed form of the supplied OTF — 12.8KB against
+  16.2KB, and universally supported — so a second `src` in another format would
+  be a file nobody ever fetches. The OTF it was built from stays in
+  `public/fonts/bulgatti/` as the source.
+*/
+@font-face {
+  font-family: "Bulgatti";
+  src: url("/fonts/Bulgatti.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   /*
     Every palette token is an *indirection*, never a literal.
@@ -128,6 +151,30 @@
   --color-ink: #1c1614;
   --color-soft: #6b5d57;
 
+  /* Peach. A ground, never text.
+
+     Warm enough to read as sweet next to the linen it sits under, and light
+     enough that the existing inks all still land on it: `ink` 13.9:1, `wine`
+     10.7:1, `soft` 4.9:1. `gold` is the one that does not — 1.9:1, invisible —
+     so a heading that is gold on the dark ground becomes wine on this one
+     rather than being carried across unchanged.
+
+     `peach-deep` is hairlines and ornament only; it was never measured for
+     text because nothing should set type in it. */
+  --color-peach: #ffdcc9;
+  --color-peach-deep: #f2b394;
+
+  /* The purple family, used only by the replies band on the marketing home
+     page. A sibling of `wine` rather than a new direction — same depth, same
+     desaturation, hue walked round to violet — so the section reads as a
+     different room in the same house instead of a different site.
+
+     `plum` is 13.1:1 on white and `orchid` 7.2:1, so both carry text. `lilac`
+     is 2.3:1 and is ornament only: fills, rings and the glow, never a word. */
+  --color-plum: #4a1f4e;
+  --color-orchid: #7a3f8c;
+  --color-lilac: #b98fc9;
+
   --color-noir: #12100e;
   --color-noir-lift: #1c1917;
   --color-bone: #ede7dd;
@@ -159,6 +206,11 @@
   --font-sans: var(--body-face);
   --font-display: var(--display-face);
   --font-script: var(--font-italianno);
+  /* The wordmark. Bulgatti when the licensed file is present, the Italianno
+     script face until then — see `public/fonts/README.md`. Declared as a
+     stack rather than a single family so a missing file falls back to
+     something drawn instead of to the system serif. */
+  --font-mark: "Bulgatti", var(--font-italianno), cursive;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-display);
 

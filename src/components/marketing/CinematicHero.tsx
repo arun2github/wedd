@@ -1,3 +1,4 @@
+import { BRAND } from "@/lib/brand";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -59,7 +60,7 @@ export function CinematicHero({ photo }: { photo: string }) {
 
       <div className="relative z-20 mx-auto w-full max-w-4xl px-6 text-center sm:px-8">
         <p className="text-[0.62rem] uppercase tracking-[0.42em] text-dust motion-safe:animate-[rise-in_0.9s_ease-out_1.1s_backwards]">
-          Twelve designs · one for your wedding
+          A design for every tradition · one for your wedding
         </p>
 
         <h1 className="mt-7 font-display text-[clamp(3rem,9vw,7.5rem)] italic leading-[0.92] tracking-[-0.02em] text-bone motion-safe:animate-[rise-in_1.1s_ease-out_1.35s_backwards]">
@@ -76,7 +77,7 @@ export function CinematicHero({ photo }: { photo: string }) {
         </h1>
 
         <p className="mx-auto mt-8 max-w-lg text-base leading-relaxed text-bone/75 motion-safe:animate-[rise-in_1.1s_ease-out_1.6s_backwards] sm:text-lg">
-          Twelve designed wedding websites. Choose one, we build it with you,
+          Designed wedding websites. Choose one, we build it with you,
           and every ceremony of your wedding lives at a single link.
         </p>
 
@@ -98,7 +99,7 @@ export function CinematicHero({ photo }: { photo: string }) {
 
       {/* Film slate. Names what you are looking at, the way a frame is labelled. */}
       <div className="absolute inset-x-0 bottom-[7vh] z-20 flex items-end justify-between px-6 pb-5 text-[0.58rem] uppercase tracking-[0.3em] text-dust sm:px-10">
-        <span>Sehra</span>
+        <span>{BRAND}</span>
         <span className="hidden sm:inline">Free to preview · pay once to publish</span>
       </div>
     </section>

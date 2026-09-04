@@ -1,5 +1,6 @@
 "use client";
 
+import { BRAND } from "@/lib/brand";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -42,8 +43,8 @@ export function SiteChrome() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-linen/85 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-7xl items-center gap-8 px-5 py-4 sm:px-8">
-        <Link href="/" className="font-script text-3xl leading-none text-ink">
-          Sehra
+        <Link href="/" className="font-mark text-3xl leading-none text-ink">
+          {BRAND}
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm text-soft lg:flex">

@@ -1,3 +1,4 @@
+import { pageTitle } from "@/lib/brand";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import { Reveal } from "@/components/marketing/Reveal";
 import { demoWeddingContent } from "@/data/wedding-data";
 
 export const metadata: Metadata = {
-  title: "How it works — Sehra",
+  title: pageTitle("How it works"),
   description:
     "Choose a design, send us your details, see it privately, publish when you are ready. Four steps and we do the building.",
 };
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
  * markers carry information rather than decorate a list.
  */
 const STEPS = [
-  { t: "Choose your design", d: "Twelve to pick from. Open any of them running with real content first — nothing is bought sight unseen.", photoIndex: 1 },
+  { t: "Choose your design", d: "Open any of them running with real content first — nothing is bought sight unseen.", photoIndex: 1 },
   { t: "Send us your details", d: "Names, dates, venues, who is hosting, and your photographs. WhatsApp is fine; so is a folder of images and a voice note.", photoIndex: 7 },
   { t: "See it privately", d: "We build it and send back a private link. Free, and only the people you send it to can open it. Change anything you like.", photoIndex: 10 },
   { t: "Publish and share", d: "Pay once. The site goes live at your own address and starts collecting replies the moment you send the link.", photoIndex: 14 },
@@ -82,7 +83,7 @@ export default function HowItWorksPage() {
               href="/designs"
               className="mt-8 inline-block rounded-full bg-aubergine px-8 py-3.5 text-sm font-medium tracking-wide text-linen transition-colors hover:bg-wine"
             >
-              See all twelve
+              See all designs
             </Link>
           </Reveal>
         </div>

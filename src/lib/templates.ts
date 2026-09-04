@@ -186,6 +186,43 @@ export type CollectionId =
   | "royal" | "editorial" | "garden" | "minimal" | "destination" | "indian-heritage";
 
 /**
+ * The three tiers the catalogue is sold in, quietest first.
+ *
+ * A different axis from `collection`, and both are kept. A collection says
+ * what a design *is* — a point of view, an aesthetic; a tier says how much
+ * design is on the page. A couple who wants something plain and a couple who
+ * wants Mughal ornament are not choosing between the same three things.
+ *
+ * Named `DESIGN_TIERS`, not `TIERS`: `@/lib/pricing` already exports a `TIERS`
+ * — Silver, Gold, Platinum — and these are not those. Two of the three values
+ * collide as well (`royal` is also a collection, `signature` also a colourway
+ * id), which is why `royal-tier` is spelt out and why this is always reached
+ * through the `tier` field rather than as a bare string.
+ */
+export type DesignTierId = "signature" | "royal-tier" | "luxe";
+
+export const DESIGN_TIERS: Record<DesignTierId, { name: string; line: string; order: number }> = {
+  signature: {
+    name: "Signature",
+    order: 1,
+    line: "Light grounds, quiet type, one idea per page. The day does the talking.",
+  },
+  "royal-tier": {
+    name: "Royal",
+    order: 2,
+    line: "Deep colour and real metal, drawn from the textiles and thresholds these ceremonies already live in.",
+  },
+  luxe: {
+    name: "Luxe",
+    order: 3,
+    line: "The most made of them — dark grounds, cinematic openings, ornament carried edge to edge.",
+  },
+};
+
+/** The tiers in ladder order, for anything that lists all three. */
+export const DESIGN_TIER_ORDER: DesignTierId[] = ["signature", "royal-tier", "luxe"];
+
+/**
  * Editorial groupings, written the way a catalogue is written rather than the
  * way a database is. A collection is a point of view, not a filter result —
  * which is why each carries its own line of copy.
@@ -231,6 +268,8 @@ export interface WeddingTemplate {
   blurb: string;
   style: TemplateStyle;
   collection: CollectionId;
+  /** Which of the three tiers this design is sold in. See `DESIGN_TIERS`. */
+  tier: DesignTierId;
   /** The single colour a couple would name if asked. Not the whole palette —
    *  a swatch filter with fifteen values is a filter nobody uses. */
   colorFamily: ColorFamily;
@@ -269,6 +308,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Ivory and wine, the way a palace card is printed. Gold used sparingly.",
     style: "luxury",
     collection: "royal",
+    tier: "luxe",
     colorFamily: "ivory",
     moods: ["elegant", "timeless"],
     weddingTypes: ["indian", "large", "multi-day"],
@@ -297,6 +337,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Indigo night, marigold light. For a sangeet that runs until morning.",
     style: "royal",
     collection: "royal",
+    tier: "royal-tier",
     colorFamily: "blue",
     moods: ["bold", "romantic"],
     weddingTypes: ["indian", "large", "multi-day"],
@@ -321,6 +362,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Kumkum red against peacock green, bordered like the silk it is named for.",
     style: "traditional",
     collection: "indian-heritage",
+    tier: "royal-tier",
     colorFamily: "terracotta",
     moods: ["timeless", "bold"],
     weddingTypes: ["indian", "large", "multi-day"],
@@ -348,6 +390,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Set like the printed order you are handed in the pew. Cobalt and brass on paper.",
     style: "editorial",
     collection: "editorial",
+    tier: "signature",
     colorFamily: "blue",
     moods: ["timeless", "elegant"],
     weddingTypes: ["destination", "intimate"],
@@ -373,6 +416,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "The contract as the keepsake. Emerald ink on unbleached paper, no figures.",
     style: "minimal",
     collection: "minimal",
+    tier: "signature",
     colorFamily: "green",
     moods: ["timeless", "elegant"],
     weddingTypes: ["indian", "intimate"],
@@ -397,6 +441,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "The folded red-and-gold card, read top to bottom in the order the days fall.",
     style: "traditional",
     collection: "indian-heritage",
+    tier: "royal-tier",
     colorFamily: "terracotta",
     moods: ["bold", "romantic"],
     weddingTypes: ["indian", "large"],
@@ -428,6 +473,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Eight-fold lattice, emerald and gold leaf. Built to be beautiful without photographs.",
     style: "luxury",
     collection: "royal",
+    tier: "luxe",
     colorFamily: "green",
     moods: ["elegant", "bold"],
     weddingTypes: ["indian", "large", "multi-day"],
@@ -454,6 +500,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "The dot grid drawn at the threshold each morning, resolving into line as you read.",
     style: "minimal",
     collection: "garden",
+    tier: "signature",
     colorFamily: "green",
     moods: ["contemporary", "playful"],
     weddingTypes: ["indian", "intimate"],
@@ -478,6 +525,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Framed in sandstone arches, the way a Jaisalmer balcony frames the street below.",
     style: "royal",
     collection: "royal",
+    tier: "royal-tier",
     colorFamily: "terracotta",
     moods: ["timeless", "bold"],
     weddingTypes: ["indian", "destination"],
@@ -505,6 +553,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Warm monochrome, photographs given the whole page and the words kept small.",
     style: "editorial",
     collection: "editorial",
+    tier: "signature",
     colorFamily: "ivory",
     moods: ["timeless", "romantic"],
     weddingTypes: ["intimate", "destination"],
@@ -530,6 +579,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Backwater green and brass, for a wedding held where the water meets the palms.",
     style: "floral",
     collection: "garden",
+    tier: "signature",
     colorFamily: "green",
     moods: ["romantic", "elegant"],
     weddingTypes: ["destination", "intimate"],
@@ -556,6 +606,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Brocade plum and antique gold, woven the way the silk it is named for is woven.",
     style: "luxury",
     collection: "royal",
+    tier: "luxe",
     colorFamily: "gold",
     moods: ["bold", "romantic"],
     weddingTypes: ["indian", "large", "multi-day"],
@@ -585,6 +636,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Crimson and leaf gold, bordered heavily, the way a palace card is printed.",
     style: "royal",
     collection: "royal",
+    tier: "royal-tier",
     colorFamily: "terracotta",
     moods: ["bold", "timeless"],
     weddingTypes: ["indian", "large", "multi-day"],
@@ -610,6 +662,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Near-black and bone. Hairline rules, no ornament, nothing that is not the photograph.",
     style: "minimal",
     collection: "editorial",
+    tier: "luxe",
     colorFamily: "black",
     moods: ["contemporary", "bold"],
     weddingTypes: ["intimate", "destination"],
@@ -635,6 +688,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Plum velvet and gold, lit low. For a wedding that begins after dark.",
     style: "luxury",
     collection: "royal",
+    tier: "luxe",
     colorFamily: "blue",
     moods: ["romantic", "elegant"],
     weddingTypes: ["large", "multi-day"],
@@ -660,6 +714,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Bone on bone. The only ornament is the edge of the paper.",
     style: "minimal",
     collection: "minimal",
+    tier: "signature",
     colorFamily: "ivory",
     moods: ["timeless", "elegant"],
     weddingTypes: ["intimate", "destination"],
@@ -685,6 +740,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Turmeric and ink, block-printed, unrolling like the card it is named for.",
     style: "traditional",
     collection: "indian-heritage",
+    tier: "royal-tier",
     colorFamily: "gold",
     moods: ["bold", "playful"],
     weddingTypes: ["indian", "multi-day"],
@@ -711,6 +767,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Near-black and clay, graded like a film still. The photographs carry it.",
     style: "editorial",
     collection: "editorial",
+    tier: "luxe",
     colorFamily: "black",
     moods: ["contemporary", "bold"],
     weddingTypes: ["destination", "intimate"],
@@ -736,6 +793,7 @@ export const TEMPLATES: Record<string, WeddingTemplate> = {
     blurb: "Warm browns and undyed linen, for a wedding held outdoors and in daylight.",
     style: "floral",
     collection: "garden",
+    tier: "signature",
     colorFamily: "terracotta",
     moods: ["timeless", "romantic"],
     weddingTypes: ["destination", "intimate", "multi-day"],
@@ -809,6 +867,87 @@ export function filterTemplates(all: WeddingTemplate[], f: TemplateFilter): Wedd
 
 /** The palette as inline custom properties, for the element that scopes a
  *  template. Every colour utility in the tree resolves through these. */
+/**
+ * The lighter of a palette's two type colours.
+ *
+ * `TemplatePoster` lays type over a `brand-deep` scrim, which is dark in every
+ * palette — so the type has to be the palette's *pale* colour. It used to take
+ * `surface` and assume that was pale, which is only true of the light-ground
+ * designs. On the 25 dark-ground colourways it inverted: Banarasi Signature
+ * put near-black #2a1230 names over a gold scrim, and every Midnight colourway
+ * did the same, with the upper half of the card showing the photograph through
+ * a 28% scrim behind dark text.
+ *
+ * Reading it off relative luminance rather than off a flag means a new palette
+ * cannot get this wrong by forgetting to declare which kind it is.
+ */
+function relativeLuminance(hex: string): number {
+  const h = hex.replace("#", "");
+  const channel = (i: number) => {
+    const c = parseInt(h.slice(i, i + 2), 16) / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * channel(0) + 0.7152 * channel(2) + 0.0722 * channel(4);
+}
+
+export function posterInk(t: WeddingTemplate): string {
+  const { surface, ink } = t.palette;
+  return relativeLuminance(surface) >= relativeLuminance(ink) ? surface : ink;
+}
+
+/**
+ * A metal that can carry the poster's `&`, or the type colour if none can.
+ *
+ * `gilt` is documented as ornament — free to be light, because nothing depends
+ * on reading it — and `gilt-ink` is its darkened sibling for text. Neither is
+ * right here: `gilt-ink` is tuned against the template's own *surface*, so on a
+ * light-ground design it is a mid-dark gold that vanishes on this dark scrim
+ * (32 of 57 colourways below 4.5:1), and `gilt` fails the same 32.
+ *
+ * So: try the palest metal first, then the plain one, and fall back to the
+ * type colour when a palette simply has no metal that reads on its own darkest
+ * ground. Six colourways take the fallback and lose the gold `&`; all 57 keep
+ * a legible one. The hairlines either side stay `gilt` — those are ornament,
+ * and nothing depends on reading them.
+ */
+export function posterMetal(t: WeddingTemplate): string {
+  const scrim = posterScrim(t);
+  const ink = posterInk(t);
+  const contrast = (a: string, b: string) => {
+    const [la, lb] = [relativeLuminance(a), relativeLuminance(b)];
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  };
+  return (
+    [t.palette["gilt-soft"], t.palette.gilt].find((c) => contrast(c, scrim) >= 4.5) ?? ink
+  );
+}
+
+/**
+ * The darkest ground a palette owns, for the poster's scrim.
+ *
+ * The scrim was hardcoded to `brand-deep` on the assumption that a "deep"
+ * brand is dark. It is not: on the `midnight` colourways the metal and the
+ * ceremonial colour trade places — a deep wine disappears against a night
+ * ground — so `brand-deep` comes back a pale gold. Royal Ivory Midnight has it
+ * at relative luminance 0.56, Genda Raat Midnight at 0.69. Scrimming a
+ * photograph in those and then setting pale type on top is two pale layers,
+ * and 19 of the 57 colourways were doing it.
+ *
+ * Taking the darkest of the four grounds the palette already defines keeps the
+ * card in the template's own colours — no value is invented here — while
+ * guaranteeing the type has something to sit on. Paired with `posterInk`, the
+ * worst of all 57 colourways measures 4.55:1.
+ */
+export function posterScrim(t: WeddingTemplate): string {
+  const grounds = [
+    t.palette["brand-deep"],
+    t.palette["stage-deep"],
+    t.palette["surface-sunk"],
+    t.palette.surface,
+  ];
+  return grounds.reduce((a, b) => (relativeLuminance(b) < relativeLuminance(a) ? b : a));
+}
+
 export function paletteVars(t: WeddingTemplate): Record<string, string> {
   return Object.fromEntries(
     Object.entries(t.palette).map(([role, value]) => [`--${role}`, value])

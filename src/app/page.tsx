@@ -1,3 +1,4 @@
+import { BRAND } from "@/lib/brand";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -8,14 +9,14 @@ import { Scallop } from "@/components/marketing/Scallop";
 import { Reveal } from "@/components/marketing/Reveal";
 import { TemplatePoster } from "@/components/marketing/TemplatePoster";
 import { DesignCarousel3D } from "@/components/marketing/DesignCarousel3D";
-import { ScrollExpandMedia } from "@/components/ui/scroll-expansion-hero";
+import { VideoHero } from "@/components/marketing/VideoHero";
 import { SmartRsvp } from "@/components/marketing/SmartRsvp";
 import { getTemplate } from "@/lib/templates";
 
 export const metadata: Metadata = {
-  title: "Sehra — wedding websites, designed",
+  title: `${BRAND} — wedding websites, designed`,
   description:
-    "Twelve designed wedding websites built to hold every day of an Indian wedding. Try any design free; pay once to publish.",
+    "Designed wedding websites built to hold every day of an Indian wedding. Try any design free; pay once to publish.",
 };
 
 /**
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 const ROOMS = [
   {
     href: "/designs",
-    eyebrow: "Twelve designs",
+    eyebrow: "The collection",
     title: "Find the one that feels like you",
     body: "Each drawn from the tradition it is for. Open any of them running with real content.",
     photo: 1,
@@ -66,67 +67,70 @@ export default function HomePage() {
   return (
     <PageShell>
       {/*
-        The opening: a film that grows as you scroll, with the title splitting
-        to get out of its way.
+        The opening: one film, full bleed, looping.
 
-        `intoVedio.mp4` is 1920×1080, 6.1s, 1.15MB — small enough to sit on the
-        critical path, which is the only reason it is the media rather than a
-        still. `hero-couple.png` is its poster, so the frame is never empty
-        while the video decodes; `hero-mandap.png` sits behind and fades out,
-        and it was chosen for its open, uncluttered centre — the title renders
-        in `mix-blend-difference`, which turns muddy over busy detail.
+        `hero-loop.mp4` is the supplied `Hero_vedio.mp4` cut to loop cleanly —
+        its last second cross-dissolved into its first, so the clip meets its
+        own opening rather than snapping back to it, and its audio stripped,
+        which the muted element could never have played.
+        `hero-loop-poster.jpg` is its frame 0, so the still shown while it
+        decodes is the frame it starts on.
+
+        The expanding card that used to sit over this is gone. It played a
+        second film inside a frame on top of a film, and it held the page still
+        for several seconds first.
       */}
-      <ScrollExpandMedia
-        mediaType="video"
-        mediaSrc="/vedio/intro-lift.mp4"
-        posterSrc="/hero-couple.png"
-        bgImageSrc="/hero-mandap.png"
+      <VideoHero
+        videoSrc="/vedio/hero-loop.mp4"
+        posterSrc="/hero-loop-poster.jpg"
         title="Wedding websites, designed for every day of an Indian wedding"
-        titleHidden
-        scrollToExpand="Scroll"
       >
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="text-lg leading-relaxed text-soft">
-            Twelve designed wedding websites, built to hold every day of an
-            Indian wedding. Choose one, we build it with you, and your guests
+          <p className="text-lg leading-relaxed text-linen">
+            Designed wedding websites, built to hold every day of an Indian
+            wedding. Choose one, we build it with you, and your guests
             get a single link.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/designs"
-              className="rounded-full bg-aubergine px-8 py-3.5 text-sm font-medium tracking-wide text-linen transition-colors hover:bg-wine focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aubergine"
+              className="rounded-full bg-linen px-8 py-3.5 text-sm font-medium tracking-wide text-aubergine transition-colors hover:bg-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-linen"
             >
               See the designs
             </Link>
             <Link
               href="/sign-in"
-              className="rounded-full border border-ink/20 px-8 py-3.5 text-sm tracking-wide transition-colors hover:border-ink/50"
+              className="rounded-full border border-linen/45 px-8 py-3.5 text-sm tracking-wide text-linen transition-colors hover:border-linen focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-linen"
             >
               Start yours
             </Link>
           </div>
-          <p className="mt-6 text-sm text-soft">
+          <p className="mt-6 text-sm text-linen/85">
             Try any design free. Pay once, only when you publish.
           </p>
         </Reveal>
-      </ScrollExpandMedia>
+      </VideoHero>
 
       {/*
-        The twelve designs on a turntable — the hero's subject, in real 3D.
+        The designs on a turntable — the hero's subject, in real 3D.
 
         Placed full-bleed under the headline rather than beside it because
         perspective needs width: squeezed into half a column the cylinder reads
         as a row of tilted cards, and the depth that makes it worth doing
         disappears.
       */}
-      <section className="overflow-hidden pb-10">
+      {/* The turntable wants air on both sides of it. It had `pb-10` and
+          nothing above, so it sat hard against the hero and the cards at the
+          front of the ring — the ones nearest the viewer — were clipped by the
+          section edge as they came round. */}
+      <section className="overflow-hidden py-20 lg:py-28">
         <DesignCarousel3D
           templates={templates}
           photo={heroPhoto}
           brideName={brideName}
           groomName={groomName}
         />
-        <p className="mt-2 text-center text-sm text-soft">
+        <p className="mt-10 text-center text-sm text-soft">
           Hover to hold it still. Try any design free — pay once, only when you publish.
         </p>
       </section>
@@ -258,7 +262,7 @@ export default function HomePage() {
         <div className="mx-auto w-full max-w-7xl px-5 py-20 sm:px-8">
           <Reveal className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-light tracking-[-0.02em]">
-              A few of the twelve
+              A few to start with
             </h2>
             <Link href="/designs" className="text-sm text-soft underline underline-offset-4 transition-colors hover:text-ink">
               See all designs

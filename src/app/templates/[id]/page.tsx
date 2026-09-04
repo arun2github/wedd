@@ -1,7 +1,8 @@
+import { BRAND } from "@/lib/brand";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { TEMPLATES, getTemplate, sectionsOf, COLLECTIONS } from "@/lib/templates";
+import { TEMPLATES, getTemplate, sectionsOf, COLLECTIONS, DESIGN_TIERS } from "@/lib/templates";
 import { colorwaysOf } from "@/lib/colorways";
 import { TIERS, inr } from "@/lib/pricing";
 import { demoWeddingContent } from "@/data/wedding-data";
@@ -77,9 +78,16 @@ export default async function TemplateDetailPage({ params, searchParams }: PageP
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="text-[0.68rem] uppercase tracking-[0.32em] text-soft">
-              {COLLECTIONS[t.collection].name}
-            </p>
+            {/* Tier and collection are different questions — how much design
+                is on the page, and what kind. Both, in that order. */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="rounded-full bg-peach px-3 py-1 text-[0.6rem] uppercase tracking-[0.22em] text-wine">
+                {DESIGN_TIERS[t.tier].name}
+              </span>
+              <p className="text-[0.68rem] uppercase tracking-[0.32em] text-soft">
+                {COLLECTIONS[t.collection].name}
+              </p>
+            </div>
             <h1 className="mt-4 font-display text-[clamp(2.6rem,6vw,4.6rem)] font-light leading-[1.0] tracking-[-0.02em]">
               {t.name}
             </h1>
@@ -160,9 +168,9 @@ export default async function TemplateDetailPage({ params, searchParams }: PageP
 
       <footer className="mt-8 border-t border-ink/10">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-8 sm:px-8">
-          <p className="font-script text-3xl leading-none">Sehra</p>
+          <p className="font-mark text-3xl leading-none">{BRAND}</p>
           <Link href="/#designs" className="text-sm text-soft transition-colors hover:text-ink">
-            See all twelve designs
+            See all designs
           </Link>
         </div>
       </footer>

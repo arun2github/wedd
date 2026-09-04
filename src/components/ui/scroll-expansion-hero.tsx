@@ -33,7 +33,27 @@ interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
   mediaSrc: string;
   posterSrc?: string;
-  bgImageSrc: string;
+  /**
+   * A still behind the expanding frame, fading out as the frame grows.
+   *
+   * Optional. Left off, the frame grows on the page ground instead — which is
+   * the right call when the media is itself a full scene and a second image
+   * behind it would only be competing wallpaper.
+   */
+  bgImageSrc?: string;
+  /**
+   * A film behind the expanding frame, looping, fading out as the frame grows.
+   *
+   * Takes precedence over `bgImageSrc` when both are given. Under
+   * `prefers-reduced-motion` it does not play at all and `bgPosterSrc` is
+   * rendered as a still instead — a full-bleed moving background is the exact
+   * thing that setting exists to switch off, and unlike the scroll expansion
+   * it never ends on its own.
+   */
+  bgVideoSrc?: string;
+  /** First frame of `bgVideoSrc`. Shown while it decodes, and in place of it
+   *  when motion is reduced, so the layer is never empty. */
+  bgPosterSrc?: string;
   title?: string;
   date?: string;
   scrollToExpand?: string;
@@ -54,6 +74,8 @@ export function ScrollExpandMedia({
   mediaSrc,
   posterSrc,
   bgImageSrc,
+  bgVideoSrc,
+  bgPosterSrc,
   title,
   date,
   scrollToExpand,
@@ -178,6 +200,12 @@ export function ScrollExpandMedia({
   const mediaHeight = 400 + shownProgress * (isMobile ? 200 : 400);
   const textShift = shownProgress * (isMobile ? 180 : 150);
 
+  /* The still standing in for the background: the video's own poster when
+     there is a video, otherwise the plain background image. `next/image`
+     throws on an empty src, so the layer renders nothing rather than a
+     placeholder when neither is supplied. */
+  const bgStill = bgVideoSrc ? bgPosterSrc : bgImageSrc;
+
   const [firstWord, ...rest] = (title ?? "").split(" ");
   const restOfTitle = rest.join(" ");
 
@@ -185,22 +213,41 @@ export function ScrollExpandMedia({
     <div className="overflow-x-hidden transition-colors duration-700 ease-in-out">
       <section className="relative flex min-h-[100dvh] flex-col items-center justify-start">
         <div className="relative flex min-h-[100dvh] w-full flex-col items-center">
-          <m.div
-            className="absolute inset-0 z-0 h-full"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 - shownProgress }}
-            transition={{ duration: 0.1 }}
-          >
-            <Image
-              src={bgImageSrc}
-              alt=""
-              fill
-              sizes="100vw"
-              priority
-              className="object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-aubergine/35" />
-          </m.div>
+          {bgVideoSrc || bgImageSrc ? (
+            <m.div
+              className="absolute inset-0 z-0 h-full"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 1 - shownProgress }}
+              transition={{ duration: 0.1 }}
+            >
+              {bgVideoSrc && !prefersReduced ? (
+                <video
+                  src={bgVideoSrc}
+                  poster={bgPosterSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  /* Decorative. It carries no information the page does not
+                     already say in words, so it is hidden from the tree
+                     rather than announced as an unlabelled media element. */
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  className="size-full object-cover object-center"
+                />
+              ) : bgStill ? (
+                <Image
+                  src={bgStill}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  priority
+                  className="object-cover object-center"
+                />
+              ) : null}
+              <div className="absolute inset-0 bg-aubergine/35" />
+            </m.div>
+          ) : null}
 
           <div className="container relative z-10 mx-auto flex flex-col items-center justify-start">
             <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center">

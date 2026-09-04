@@ -1,3 +1,4 @@
+import { pageTitle } from "@/lib/brand";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/marketing/PageShell";
@@ -7,7 +8,7 @@ import { demoWeddingContent } from "@/data/wedding-data";
 import { TemplatePoster } from "@/components/marketing/TemplatePoster";
 
 export const metadata: Metadata = {
-  title: "What your guests see — Sehra",
+  title: pageTitle("What your guests see"),
   description:
     "One link, no app, one tap to reply. What 330 guests actually find when they open your wedding website.",
 };

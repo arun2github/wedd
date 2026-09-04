@@ -1,3 +1,4 @@
+import { pageTitle } from "@/lib/brand";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -7,7 +8,7 @@ import { sectionsOf, listTemplates } from "@/lib/templates";
 import { demoWeddingContent } from "@/data/wedding-data";
 
 export const metadata: Metadata = {
-  title: "For couples — Sehra",
+  title: pageTitle("For couples"),
   description:
     "Change your design without retyping anything. Stay private until you publish. Edit after the invitations go out. What you actually get.",
 };
@@ -104,7 +105,7 @@ export default function ForCouplesPage() {
             </ul>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-linen/65">
               You are not choosing between designs that have different features.
-              All twelve carry all of it — they differ in how they look, which
+              Every one carries all of it — they differ in how they look, which
               is the only thing worth choosing between.
             </p>
           </Reveal>
@@ -122,7 +123,7 @@ export default function ForCouplesPage() {
                 href="/designs"
                 className="rounded-full bg-aubergine px-8 py-3.5 text-sm font-medium tracking-wide text-linen transition-colors hover:bg-wine"
               >
-                See all twelve
+                See all designs
               </Link>
               <Link
                 href="/pricing"

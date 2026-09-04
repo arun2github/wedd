@@ -47,7 +47,7 @@ export function TemplateCard({
 
       <div className="mt-5">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-display text-2xl font-light">{template.name}</h3>
+          <h4 className="font-display text-2xl font-light">{template.name}</h4>
           <p className="text-[0.6rem] uppercase tracking-[0.22em] text-soft">{template.style}</p>
         </div>
         <p className="mt-2 text-sm leading-relaxed text-soft">{template.blurb}</p>
